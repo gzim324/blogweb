@@ -22,26 +22,37 @@ class BlogController extends Controller
      */
     public function otherAction()
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
+        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
+        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
+        $rows = $Repo->findBy(array(
+            "deleted" => false, //nie usunięte
+            //user ma widziec wpisy tylko userow ktorych obserwuje
+        ));
 
-        return array();
+
+
+        return array(
+            'rows' => $rows
+        );
     }
 
     /**
-     * @Route("/user/{id}", name="blog_home")
+     * @Route("/user/{id}", name="blog_user")
      * @Template()
      */
-    public function homeAction()
+    public function userBlogAction()
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
             $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
             $rows = $Repo->findBy(array(
                 "deleted" => false, //nie usunięte
-                "owner" => $this->getUser() //user widzi tylko swoje spisy
+                "owner" => $this->getUser(), //user widzi tylko swoje spisy
             ));
 
+
+
         return array(
-            'rows' => $rows,
+            'rows' => $rows
         );
     }
 
@@ -98,7 +109,7 @@ class BlogController extends Controller
 
         if($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_home", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }
         $form = $this->createForm(PostType::class, $post);
         if($request->isMethod('POST')) {
@@ -137,7 +148,7 @@ class BlogController extends Controller
 
         $this->addFlash('warning', "Wpis został usunięty");
 
-        return $this->redirectToRoute('blog_home', ["id" => $this->getUser()]);
+        return $this->redirectToRoute('blog_user', ["id" => $this->getUser()]);
     }
 
     /**
@@ -152,7 +163,7 @@ class BlogController extends Controller
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_home", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }
 
         return array(
@@ -182,7 +193,7 @@ class BlogController extends Controller
         $em->flush();
 
             $this->addFlash('success', 'Informacje dodane');
-            return $this->redirectToRoute("blog_home", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }else {
             $this->addFlash('error', 'Informacje nie mogły zostać dodane');
         }
