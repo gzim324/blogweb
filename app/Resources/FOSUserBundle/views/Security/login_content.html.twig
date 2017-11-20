@@ -1,0 +1,42 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <center>
+            <div class="jumbotron">
+                <img src="{{ asset('logo.png') }}" class="img img-responsive">
+                <h2>Create your own blog</h2>
+                <a class="btn btn-primary btn-lg" href="{{ path('fos_user_registration_register') }}" role="button">Sign up</a>
+            </div>
+        </center>
+    </div>
+
+    <div class="col-xs-6 col-md-4">
+        <div class="jumbotron">
+            <h3>Sign In</h3>
+            <form class="form-group" action="{{ path("fos_user_security_check") }}" method="post">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+
+                <input class="form-control" type="text" id="username" name="_username" placeholder="Username" value="{{ last_username }}" required="required" />
+
+                <input class="form-control" type="password" id="password" name="_password" placeholder="Password" required="required" />
+
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label class="control-label" for="remember_me">Remember me</label>
+
+                <input class="btn btn-default" type="submit" id="_submit" name="_submit" value="Login" />
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if error %}
+    <div class="alert alert-warning" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<div class="container" style="position:fixed; bottom:0;">
+    <hr>
+    <p class="text-center">BlogWEB © 2017</p>
+</div>

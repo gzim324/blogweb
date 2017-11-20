@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "@ZimaBlogweb/base.html.twig" %}
+
+{% block body %}
+
+    <h1>Rejestracja</h1>
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+    <div class="form-group">
+        {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.username, {'attr': {'placeholder': 'Username'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.plainPassword.first, {'attr': {'placeholder': 'Password'}}) }}
+    </div>
+    <div class="form-group">
+        {{ form_widget(form.plainPassword.second, {'attr': {'placeholder': 'Confirm password'}}) }}
+    </div>
+    <div>
+        <input class="btn btn-default" type="submit" value="Registration" />
+    </div>
+{{ form_end(form) }}
+
+    <center><img src="{{ asset('logo.png') }}" class="img img-responsive"></center>
+
+    <div class="container" style="position:fixed; bottom:0;">
+        <hr>
+        <p class="text-center">BlogWEB © 2017</p>
+    </div>
+
+{% endblock %}

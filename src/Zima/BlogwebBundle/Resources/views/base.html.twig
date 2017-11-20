@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}BlockWEB{% endblock %}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+
+    {% if is_granted("ROLE_USER") %}
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <img src="{{ asset('logo.png') }}" class="img img-responsive" width="200">
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="{{ path('blog_other') }}">Home <span class="sr-only"></span></a></li>
+                            <li><a href="{{ path('blog_addcontents') }}">Add contents</a></li>
+                        </ul>
+
+                        <form class="navbar-form navbar-left">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </form>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if is_granted("ROLE_USER") %}
+                                <li><a href="{{ path('blog_home', {"id": app.user.id}) }}">{{ app.user.username }}</a></li>
+                            {% endif %}
+
+                            <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+    {% endif %}
+
+    <div class="container" style="margin-top: 50px;">
+        {% for message in app.flashes("success") %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes("error") %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes("warning") %}
+            <div class="alert alert-warning" role="alert">{{ message }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+    <div class="container">
+        {% block menu %}
+
+        {% endblock %}
+    </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

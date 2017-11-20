@@ -1,0 +1,14 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <h2 style="font-size: 30px;">Congratulation</h2>
+    <p style="font-size: 22px;">Etap 1 - Create an account - Completed</p>
+    <a href="{{ path('blog_settings') }}"><p style="font-size: 22px;">Now add some informations about yourself and write a blog</p></a>
+
+
+    {#{% if targetUrl %}#}
+    {#<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>#}
+    {#{% endif %}#}
+{% endblock fos_user_content %}
