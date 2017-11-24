@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="358b0985-d9c1-40da-b34b-53dea38a106a" name="Default" comment="" />
+=======
+    <list default="true" id="358b0985-d9c1-40da-b34b-53dea38a106a" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/userBlog.html.twig" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig" afterPath="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig" />
+    </list>
+>>>>>>> twig_contents
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,12 +26,38 @@
       <file leaf-file-name="BlogController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Controller/BlogController.php">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="-1706">
               <caret line="24" column="46" lean-forward="false" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
               <folding>
                 <element signature="e#49#106#0#PHP" expanded="true" />
                 <element signature="e#825#849#1#PHP" expanded="true" />
                 <element signature="e#1338#1362#1#PHP" expanded="true" />
+=======
+            <state relative-caret-position="-1986">
+              <caret line="24" column="46" lean-forward="false" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+              <folding>
+                <element signature="e#49#106#0#PHP" expanded="true" />
+                <marker date="1511207825477" expanded="true" signature="585:5753" ph="{...}" />
+                <marker date="1511207825477" expanded="true" signature="694:753" ph="{...}" />
+                <marker date="1511207825477" expanded="true" signature="5536:5576" ph="..." />
+                <marker date="1511207825477" expanded="true" signature="5536:5751" ph="{...}" />
+                <marker date="1511207825477" expanded="true" signature="5583:5668" ph="..." />
+                <marker date="1511207825477" expanded="true" signature="5692:5743" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userBlog.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/userBlog.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+              <folding>
+                <element signature="e#12#39#0#Twig" expanded="true" />
+                <element signature="e#202#226#0#HTML" expanded="true" />
+>>>>>>> twig_contents
               </folding>
             </state>
           </provider>
@@ -32,7 +67,11 @@
         <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/other.html.twig">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="90">
+<<<<<<< HEAD
               <caret line="24" column="14" lean-forward="false" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
+=======
+              <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+>>>>>>> twig_contents
               <folding>
                 <element signature="e#12#39#0#Twig" expanded="true" />
               </folding>
@@ -43,15 +82,33 @@
       <file leaf-file-name="base.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/base.html.twig">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="660">
               <caret line="44" column="14" lean-forward="false" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
               <folding>
                 <marker date="1511209584674" expanded="false" signature="2246:2263" ph="..." />
+=======
+            <state relative-caret-position="585">
+              <caret line="39" column="18" lean-forward="false" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+              <folding>
+                <marker date="1511207825480" expanded="true" signature="321:1818" ph="{% if is_granted(&quot;ROLE_USER&quot;) ...%}" />
+                <marker date="1511207825480" expanded="true" signature="1800:1801" ph="..." />
+                <marker date="1511207825480" expanded="false" signature="1854:1871" ph="..." />
+                <marker date="1511207825480" expanded="true" signature="1872:2333" ph="..." />
+                <marker date="1511207825480" expanded="true" signature="1882:2024" ph="{% for message in app.flashes(&quot;success&quot;) ...%}" />
+                <marker date="1511207825480" expanded="true" signature="2033:2172" ph="{% for message in app.flashes(&quot;error&quot;) ...%}" />
+                <marker date="1511207825480" expanded="true" signature="2181:2323" ph="{% for message in app.flashes(&quot;warning&quot;) ...%}" />
+                <marker date="1511207825480" expanded="true" signature="2362:2412" ph="..." />
+                <marker date="1511207825480" expanded="true" signature="2372:2402" ph="{% block body ...%}" />
+                <marker date="1511207825480" expanded="true" signature="2440:2500" ph="..." />
+                <marker date="1511207825480" expanded="true" signature="2450:2490" ph="{% block menu ...%}" />
+>>>>>>> twig_contents
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="contents.html.twig" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig">
           <provider selected="true" editor-type-id="text-editor">
@@ -59,12 +116,25 @@
               <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
               <folding>
                 <element signature="e#157#181#0#HTML" expanded="true" />
+=======
+      <file leaf-file-name="contents.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="32" lean-forward="false" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+              <folding>
+                <element signature="e#160#184#0#HTML" expanded="true" />
+>>>>>>> twig_contents
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
+=======
+      <file leaf-file-name="composer.json" pinned="false" current-in-tab="true">
+>>>>>>> twig_contents
         <entry file="file://$PROJECT_DIR$/composer.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="235">
@@ -74,6 +144,7 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="AppKernel.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -106,6 +177,8 @@
           </provider>
         </entry>
       </file>
+=======
+>>>>>>> twig_contents
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -135,7 +208,6 @@
         <option value="$PROJECT_DIR$/app/Resources/FOSUserBundle/views/layout.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/FOSUserBundle/views/Registration/confirmed.html.twig" />
         <option value="$PROJECT_DIR$/app/config/config.yml" />
-        <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle/Form/Type/RegistrationFormType.php" />
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Entity/Post.php" />
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Form/SettingsType.php" />
@@ -149,6 +221,7 @@
         <option value="$PROJECT_DIR$/app/Resources/FOSUserBundle/views/Registration/register_content.html.twig" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/vendor/friendsofsymfony/user-bundle/Model/User.php" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/other.html.twig" />
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/userBlog.html.twig" />
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Controller/BlogController.php" />
@@ -156,6 +229,10 @@
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig" />
         <option value="$PROJECT_DIR$/app/AppKernel.php" />
         <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Form/PostType.php" />
+=======
+        <option value="$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig" />
+        <option value="$PROJECT_DIR$/composer.json" />
+>>>>>>> twig_contents
       </list>
     </option>
   </component>
@@ -385,7 +462,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="65294000" />
+=======
+    <option name="totallyTimeSpent" value="59083000" />
+>>>>>>> twig_contents
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="878" extended-state="0" />
@@ -412,7 +493,11 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+=======
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+>>>>>>> twig_contents
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -467,6 +552,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -475,6 +561,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> twig_contents
     <entry file="file://$PROJECT_DIR$/app/Resources/FOSUserBundle/views/Registration/confirmed.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -571,7 +659,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="15" lean-forward="true" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -579,6 +666,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+=======
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/edit.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#12#39#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/add.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="14" lean-forward="false" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/settings.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+>>>>>>> twig_contents
         </state>
       </provider>
     </entry>
@@ -600,6 +717,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="78" />
+<<<<<<< HEAD
+=======
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Controller/BlogController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1986">
+          <caret line="24" column="46" lean-forward="false" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+          <folding>
+            <element signature="e#49#106#0#PHP" expanded="true" />
+            <marker date="1511207825477" expanded="true" signature="585:5753" ph="{...}" />
+            <marker date="1511207825477" expanded="true" signature="694:753" ph="{...}" />
+            <marker date="1511207825477" expanded="true" signature="5536:5576" ph="..." />
+            <marker date="1511207825477" expanded="true" signature="5536:5751" ph="{...}" />
+            <marker date="1511207825477" expanded="true" signature="5583:5668" ph="..." />
+            <marker date="1511207825477" expanded="true" signature="5692:5743" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/home.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="32" lean-forward="false" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+>>>>>>> twig_contents
         </state>
       </provider>
     </entry>
@@ -607,6 +750,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="65" lean-forward="false" selection-start-line="12" selection-start-column="65" selection-end-line="12" selection-end-column="65" />
+<<<<<<< HEAD
+=======
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/base.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="18" lean-forward="false" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
+          <folding>
+            <marker date="1511207825480" expanded="true" signature="321:1818" ph="{% if is_granted(&quot;ROLE_USER&quot;) ...%}" />
+            <marker date="1511207825480" expanded="true" signature="1800:1801" ph="..." />
+            <marker date="1511207825480" expanded="false" signature="1854:1871" ph="..." />
+            <marker date="1511207825480" expanded="true" signature="1872:2333" ph="..." />
+            <marker date="1511207825480" expanded="true" signature="1882:2024" ph="{% for message in app.flashes(&quot;success&quot;) ...%}" />
+            <marker date="1511207825480" expanded="true" signature="2033:2172" ph="{% for message in app.flashes(&quot;error&quot;) ...%}" />
+            <marker date="1511207825480" expanded="true" signature="2181:2323" ph="{% for message in app.flashes(&quot;warning&quot;) ...%}" />
+            <marker date="1511207825480" expanded="true" signature="2362:2412" ph="..." />
+            <marker date="1511207825480" expanded="true" signature="2372:2402" ph="{% block body ...%}" />
+            <marker date="1511207825480" expanded="true" signature="2440:2500" ph="..." />
+            <marker date="1511207825480" expanded="true" signature="2450:2490" ph="{% block menu ...%}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
+          <folding />
+>>>>>>> twig_contents
         </state>
       </provider>
     </entry>
@@ -718,6 +892,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/home.html.twig" />
     <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/edit.html.twig">
       <provider selected="true" editor-type-id="text-editor">
@@ -756,10 +931,20 @@
           <caret line="8" column="28" lean-forward="false" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
           <folding>
             <element signature="e#157#181#0#HTML" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/userBlog.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+          <folding>
+            <element signature="e#12#39#0#Twig" expanded="true" />
+            <element signature="e#202#226#0#HTML" expanded="true" />
+>>>>>>> twig_contents
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Controller/BlogController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1706">
@@ -768,25 +953,49 @@
             <element signature="e#49#106#0#PHP" expanded="true" />
             <element signature="e#825#849#1#PHP" expanded="true" />
             <element signature="e#1338#1362#1#PHP" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/other.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="14" lean-forward="false" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
+          <folding>
+            <element signature="e#12#39#0#Twig" expanded="true" />
+>>>>>>> twig_contents
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/other.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="24" column="14" lean-forward="false" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
           <folding>
             <element signature="e#12#39#0#Twig" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/contents.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="32" lean-forward="false" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+          <folding>
+            <element signature="e#160#184#0#HTML" expanded="true" />
+>>>>>>> twig_contents
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Zima/BlogwebBundle/Resources/views/Blog/userBlog.html.twig" />
     <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="283">
           <caret line="20" column="59" lean-forward="false" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+=======
+    <entry file="file://$PROJECT_DIR$/composer.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="18" column="31" lean-forward="false" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+>>>>>>> twig_contents
           <folding />
         </state>
       </provider>

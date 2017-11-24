@@ -1,0 +1,38 @@
+{% extends '@ZimaBlogweb/base.html.twig' %}
+
+{% block body %}
+
+
+    {% for content in rows %}
+        <div class="col-xs-12 col-sm-6 col-md-8">
+
+            <div class="well">
+                <center><p style="font-size: 25px;">{{ content.title }}</p></center>
+                <p>{{ content.createdAt|date('Y-m-d H:i') }}</p> <hr>
+                <p><b>{{ content.contents|slice(0, 570) ~ '...' }}</b></p>
+                <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
+            </div>
+
+        </div>
+    {% else %}
+        <div class="col-xs-12 col-sm-7 col-md-9">
+            <div class="well">
+                <center> <h3>You don't have any contents</h3> </center>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="col-xs-6 col-md-4 col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {# username, glowny temat blogowania, ilosc postow, birthday, zainteresowania, o mnie #}
+                {% for info in rows1 %}
+                <h2>{{ info.username }}</h2>
+                {% endfor %}
+                {# a href settings #}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

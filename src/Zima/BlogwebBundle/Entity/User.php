@@ -28,6 +28,14 @@ class User extends BaseUser
     private $posts;
 
     /**
+     * @var Comments[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="owner")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    private $comment;
+
+    /**
      * @var string
      * @ORM\Column(name="fullname", type="string", length=50)
      */
@@ -62,6 +70,7 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->posts = new ArrayCollection();
+        $this->comment = new ArrayCollection();
     }
 
     /**
@@ -169,5 +178,23 @@ class User extends BaseUser
     {
         $this->interests = $interests;
     }
+
+    /**
+     * @return ArrayCollection|Comments[]
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param ArrayCollection|Comments[] $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+
 
 }

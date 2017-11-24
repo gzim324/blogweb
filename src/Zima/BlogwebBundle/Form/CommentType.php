@@ -5,24 +5,21 @@ namespace Zima\BlogwebBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zima\BlogwebBundle\Entity\Post;
+use Zima\BlogwebBundle\Entity\Comments;
 
-class PostType extends AbstractType
+class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add("title", TextType::class)
-            ->add("tags", TextType::class)
-            ->add("contents", TextareaType::class, array('attr' => array('rows' => '22')))
+            ->add("comment", TextareaType::class, array('attr' => array('rows' => '3')))
             ->add("submit", SubmitType::class, array('label' => 'ADD'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(["data_class" => Post::class]);
+        $resolver->setDefaults(["data_class" => Comments::class]);
     }
 }

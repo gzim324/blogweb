@@ -8,10 +8,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Zima\BlogwebBundle\Entity\Comments;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 use Zima\BlogwebBundle\Form\PostType;
 use Zima\BlogwebBundle\Form\SettingsType;
+use Zima\BlogwebBundle\Form\CommentType;
 
 
 class BlogController extends Controller
@@ -29,8 +31,6 @@ class BlogController extends Controller
             //user ma widziec wpisy tylko userow ktorych obserwuje
         ));
 
-
-
         return array(
             'rows' => $rows
         );
@@ -43,16 +43,21 @@ class BlogController extends Controller
     public function userBlogAction()
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-            $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
-            $rows = $Repo->findBy(array(
-                "deleted" => false, //nie usunięte
-                "owner" => $this->getUser(), //user widzi tylko swoje spisy
-            ));
+        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
+        $rows = $Repo->findBy(array(
+            "deleted" => false, //nie usunięte
+            "owner" => $this->getUser(), //user widzi tylko swoje spisy
+        ));
 
+        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
+        $rows1 = $Repo->findBy(array(
+            "username" => $this->getUser()
+        ));
 
 
         return array(
-            'rows' => $rows
+            'rows' => $rows,
+            'rows1' => $rows1
         );
     }
 
@@ -89,6 +94,49 @@ class BlogController extends Controller
 
         return array(
             'form' => $form->createView()
+        );
+    }
+
+    /**
+     * @Route("/contents/{id}", name="blog_content")
+     * @Template()
+     * @param Post $post
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
+     */
+    public function contentsAction(Post $post, Request $request)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
+            $this->addFlash("error", "Taki wpis nie istnieje");
+            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+        }
+        //////add comment
+        $comments = new Comments();
+        $comments->setOwner($this->getUser());  //ustawiam autora wpisu
+        $comments->setPosts($post);
+        $commentForm = $this->createForm(CommentType::class, $comments);
+
+        if($request->isMethod('POST')) {
+            $commentForm->handleRequest($request);
+            if($commentForm->isValid()){
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($comments);
+                $em->flush();
+
+                $this->addFlash('success', "Komentarz został dodany");
+                return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
+            }else{
+                $this->addFlash('error', "Komentarz nie mógł zostać dodany");
+            }
+        }
+
+        return array(
+            'post' => $post,
+            'commentForm' => $commentForm->createView()
         );
     }
 
@@ -149,26 +197,6 @@ class BlogController extends Controller
         $this->addFlash('warning', "Wpis został usunięty");
 
         return $this->redirectToRoute('blog_user', ["id" => $this->getUser()]);
-    }
-
-    /**
-     * @Route("/contents/{id}", name="blog_content")
-     * @Template()
-     * @param Post $post
-     * @return Response
-     */
-    public function contentsAction(Post $post)
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER");
-
-        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
-        }
-
-        return array(
-            'post' => $post
-        );
     }
 
     /**

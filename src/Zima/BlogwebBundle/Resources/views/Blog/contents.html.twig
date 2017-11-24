@@ -6,10 +6,27 @@
         <div class="well">
             <p style="font-size: 25px;">{{ post.title }}</p>
             <p>wrote: <i>{{ post.owner }}</i> {{ post.createdAt|date('Y-m-d H:i') }} </p> <hr>
-            {{ post.contents }}
+            {{ post.contents|raw }}
         </div>
 
     {#</div>#}
+
+    <hr>
+    <h1>Comments:</h1>
+
+    {{ form_start(commentForm, {"attr": {"novalidate": "novalidate"}}) }}
+    <div class="form-group">
+        {{ form_widget(commentForm.comment, {'attr': {'placeholder': 'Write a comment'}}) }}
+    </div>
+    {{ form_end(commentForm) }} <br>
+
+    {#wyswietlenie komentarza#}
+    {% for comment in post.comment %}
+        <div class="well">
+            <i>{{ comment.owner }}</i> {{ comment.createdAt|date('Y-m-d H:i') }}
+            <p>{{ comment.comment }}</p>
+        </div>
+    {% endfor %}
 
 
 {% endblock %}

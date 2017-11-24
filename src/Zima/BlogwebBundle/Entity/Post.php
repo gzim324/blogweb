@@ -2,6 +2,7 @@
 
 namespace Zima\BlogwebBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -78,6 +79,14 @@ class Post
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
      */
     private $owner;
+
+    /**
+     * @var Comments[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Comments", mappedBy="posts")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     */
+    private $comment;
 
     /**
      * Get id
@@ -244,6 +253,21 @@ class Post
         $this->tags = $tags;
     }
 
+    /**
+     * @return ArrayCollection|Comments[]
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param ArrayCollection|Comments[] $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
 
 }
 
