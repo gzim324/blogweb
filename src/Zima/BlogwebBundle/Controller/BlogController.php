@@ -48,17 +48,18 @@ class BlogController extends Controller
     public function userBlogAction(User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
-        $rows = $Repo->findBy(array(
-            "deleted" => false, //nie usunięte
-            "owner" => $user->getId() //user widzi tylko swoje spisy
-        ));
+//        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
+//        $rows = $Repo->findBy(array(
+//            "deleted" => false, //nie usunięte
+//            "owner" => $user->getId() //user widzi tylko swoje spisy
+//        ));
 
-        $Repo1 = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
-        $rows1 = $Repo1->findBy(array(
-            "id" => $user->getId()
-        ));
-
+//        $Repo1 = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
+//        $rows1 = $Repo1->findBy(array(
+//            "id" => $user->getId()
+//        ));
+        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
+        $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findInfo($user);
 
         return array(
             'rows' => $rows,

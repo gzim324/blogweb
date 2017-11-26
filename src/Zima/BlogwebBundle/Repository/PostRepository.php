@@ -26,4 +26,20 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param User $user
+     * @return array
+     */
+    public function findcontents(User $user) {
+        return $this->createQueryBuilder("post")
+            ->where("post.deleted = :false")
+            ->setParameter("false", Post::STATUS_DELETED_FALSE)
+            ->andWhere("post.owner = :owner")
+            ->setParameter("owner", $user->getId())
+            ->orderBy("post.createdAt", "DESC")
+            ->getQuery()
+            ->getResult();
+    }
+
 }
