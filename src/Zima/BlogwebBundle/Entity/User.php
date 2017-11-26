@@ -49,12 +49,6 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="main_title", type="string", length=255)
-     */
-    private $maintitles;
-
-    /**
-     * @var string
      * @ORM\Column(name="interests", type="string", length=255)
      */
     private $interests;
@@ -145,22 +139,6 @@ class User extends BaseUser
     public function setFullname($fullname)
     {
         $this->fullname = $fullname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMaintitles()
-    {
-        return $this->maintitles;
-    }
-
-    /**
-     * @param string $maintitles
-     */
-    public function setMaintitles($maintitles)
-    {
-        $this->maintitles = $maintitles;
     }
 
     /**

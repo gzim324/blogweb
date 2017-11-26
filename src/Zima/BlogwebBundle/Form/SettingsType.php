@@ -18,7 +18,6 @@ class SettingsType extends AbstractType
         $builder
             ->add("fullname", TextType::class)
             ->add("birthday", DateTimeType::class)
-            ->add("maintitles", TextType::class)
             ->add("interests", TextType::class)
             ->add("aboutme", TextareaType::class, array('attr' => array('rows' => '4')))
             ->add("submit", SubmitType::class, array('label' => 'Update'));

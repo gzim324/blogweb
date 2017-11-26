@@ -25,11 +25,14 @@ class BlogController extends Controller
     public function otherAction()
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
-        $rows = $Repo->findBy(array(
-            "deleted" => false, //nie usunięte
-            //user ma widziec wpisy tylko userow ktorych obserwuje
-        ));
+
+        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
+
+//        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
+//        $rows = $Repo->findBy(array(
+//            "deleted" => false, //nie usunięte
+//            //user ma widziec wpisy tylko userow ktorych obserwuje
+//        ));
 
         return array(
             'rows' => $rows
@@ -39,19 +42,21 @@ class BlogController extends Controller
     /**
      * @Route("/user/{id}", name="blog_user")
      * @Template()
+     * @return array
+     * @param User $user
      */
-    public function userBlogAction()
+    public function userBlogAction(User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
         $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
         $rows = $Repo->findBy(array(
             "deleted" => false, //nie usunięte
-            "owner" => $this->getUser(), //user widzi tylko swoje spisy
+            "owner" => $user->getId() //user widzi tylko swoje spisy
         ));
 
         $Repo1 = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
         $rows1 = $Repo1->findBy(array(
-            "username" => $this->getUser()
+            "id" => $user->getId()
         ));
 
 
@@ -97,6 +102,31 @@ class BlogController extends Controller
     }
 
     /**
+     * @Route("/contentU/{id}", name="blog_contentUser")
+     * @Template()
+     * @param Post $post
+     * @return array
+     */
+    public function contentsUserAction(Post $post) {
+        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
+
+        if($this->getUser() !== $post->getOwner()) {
+            throw new AccessDeniedException();
+        }
+
+        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
+            $this->addFlash("error", "Taki wpis nie istnieje");
+            return $this->redirectToRoute("blog_other");
+        }
+
+
+
+        return array(
+            'post' => $post
+        );
+    }
+
+    /**
      * @Route("/contents/{id}", name="blog_content")
      * @Template()
      * @param Post $post
@@ -121,7 +151,7 @@ class BlogController extends Controller
         if($request->isMethod('POST')) {
             $commentForm->handleRequest($request);
             if($commentForm->isValid()){
-
+                $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($comments);
                 $em->flush();
@@ -133,10 +163,15 @@ class BlogController extends Controller
             }
         }
 
-        $selectComments = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Comments')->findBy(array(
-            "deleted" => false, //nie usunięte
-            "posts" => $comments->getPosts()
-        ));
+        $selectComments = $this->getDoctrine()->getManager()->getRepository(Comments::class)->selectComment($comments);
+//        $selectComments = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Comments')->findBy(array(
+//            "deleted" => false, //nie usunięte
+//            "posts" => $comments->getPosts()
+//        ));
+
+//        if($this->$post == $this->getUser()) {
+//            return $this->redirectToRoute(return $this->redirectToRoute("blog_content", ['id' => $post->getId()]));
+//        }
 
         return array(
             'post' => $post,
@@ -149,7 +184,7 @@ class BlogController extends Controller
      * @Route("/edit/contents/{id}", name="blog_edit")
      * @param Request $request
      * @param Post $post
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Template()
      */
     public function editAction(Request $request, Post $post)
@@ -208,7 +243,7 @@ class BlogController extends Controller
      * @Route("/delete/comment/{id}", name="blog_del_comment")
      * @return Response
      */
-    public function deletedCommentAction(Comments $comments, Post $post)
+    public function deletedCommentAction(Comments $comments)
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
@@ -223,22 +258,21 @@ class BlogController extends Controller
         $em->flush();
 
         $this->addFlash('warning', "Komentarz został usunięty");
-
-        return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
+        return $this->redirectToRoute('blog_content', ['id' => $comments->getPosts()]);
     }
 
     /**
      * @Route("/user/settings/{id}", name="blog_settings")
      * @param User $user
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Template()
      */
     public function settingsAction(Request $request, User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
-        if($this->getUser() !== $user->getId()) {
+        if(!$this->getUser()) {
             throw new AccessDeniedException();
         }
 

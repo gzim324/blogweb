@@ -2,6 +2,9 @@
 
 namespace Zima\BlogwebBundle\Repository;
 
+use Zima\BlogwebBundle\Entity\Post;
+use Zima\BlogwebBundle\Entity\User;
+
 /**
  * PostRepository
  *
@@ -10,4 +13,17 @@ namespace Zima\BlogwebBundle\Repository;
  */
 class PostRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return array
+     */
+    public function findUndeletedPost() {
+        return $this->createQueryBuilder("a")
+            ->where("a.deleted = :false")
+            ->setParameter("false", Post::STATUS_DELETED_FALSE)
+//            ->andWhere("a.createdAt > :now")
+//            ->setParameter("now", new \DateTime())
+            ->orderBy("a.createdAt", "DESC")
+            ->getQuery()
+            ->getResult();
+    }
 }

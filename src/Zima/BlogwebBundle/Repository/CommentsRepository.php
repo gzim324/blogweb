@@ -2,6 +2,10 @@
 
 namespace Zima\BlogwebBundle\Repository;
 
+use Zima\BlogwebBundle\Entity\Comments;
+use Zima\BlogwebBundle\Entity\Post;
+
+
 /**
  * CommentsRepository
  *
@@ -10,4 +14,15 @@ namespace Zima\BlogwebBundle\Repository;
  */
 class CommentsRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function selectComment(Comments $comments) {
+        return $this->createQueryBuilder("a")
+            ->where("a.deleted = :false")
+            ->setParameter("false", Comments::STATUS_DELETED_FALSE)
+            ->andWhere("a.posts = :posts")
+            ->setParameter("posts", $comments->getPosts())
+            ->orderBy("a.createdAt", "DESC")
+            ->getQuery()
+            ->getResult();
+    }
 }
