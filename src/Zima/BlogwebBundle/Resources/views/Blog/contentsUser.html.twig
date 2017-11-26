@@ -1,0 +1,36 @@
+{% extends '@ZimaBlogweb/base.html.twig' %}
+
+{% block body %}
+
+    <a class="btn btn-primary" href="{{ path('blog_edit', {"id": post.id}) }}">Edit</a>
+    <a class="btn btn-danger" href="{{ path('blog_delete', {"id": post.id}) }}">X</a>
+    {#<div class="col-lg-8 col-md-8 col-xs-12">#}
+        <div class="well">
+            <p style="font-size: 25px;">{{ post.title }}</p>
+            <p>wrote: <i>{{ post.owner }}</i> {{ post.createdAt|date('Y-m-d H:i') }} </p> <hr>
+            {{ post.contents|raw }}
+        </div>
+    {#</div>#}
+
+    <hr>
+    <h3>Comments:</h3>
+
+    {{ form_start(commentForm, {"attr": {"novalidate": "novalidate"}}) }}
+    <div class="form-group">
+        {{ form_widget(commentForm.comment, {'attr': {'placeholder': 'Write a comment'}}) }}
+    </div>
+    {{ form_end(commentForm) }} <br>
+
+
+
+    {#wyswietlenie komentarza#}
+    {% for comment in selectcomments %}
+        <div class="well">
+            <u><b>{{ comment.owner }}</b> {{ comment.createdAt|date('Y-m-d H:i') }}</u> <hr>
+            <p>{{ comment.comment }}</p>
+            <a class="btn btn-danger" href="{{ path('blog_del_comment', {"id": comment.id}) }}">X</a>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}
