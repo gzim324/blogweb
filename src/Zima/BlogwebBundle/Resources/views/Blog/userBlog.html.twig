@@ -11,6 +11,7 @@
                 <p>{{ content.createdAt|date('Y-m-d H:i') }}</p> <hr>
                 <p><b>{{ content.contents|slice(0, 570) ~ '...' }}</b></p>
                 <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
+                <hr> <a class="btn btn-danger" href="{{ path('blog_delete', {"id": content.id}) }}">X</a>
             </div>
 
         </div>
@@ -26,9 +27,8 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 {# username, glowny temat blogowania, ilosc postow, birthday, zainteresowania, o mnie #}
-                {% for info in rows1 %}
-                <h2>{{ info.username }}</h2>
-                {% endfor %}
+                {#{% for info in rows1 %}#}
+                {#{% endfor %}#}
                 {# a href settings #}
             </div>
         </div>

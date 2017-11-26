@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comments
 {
+    const STATUS_DELETED_FALSE = false;
+    const STATUS_DELETED_TRUE = true;
+
     /**
      * @var int
      *
@@ -34,6 +37,13 @@ class Comments
      * @ORM\Column(name="comment", type="text")
      */
     private $comment;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="deleted", type="boolean")
+     */
+    private $deleted;
 
     /**
      * @var User
@@ -143,6 +153,24 @@ class Comments
     {
         $this->posts = $posts;
     }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * @param bool $deleted
+     */
+    public function setDeleted($deleted)
+    {
+        $this->deleted = $deleted;
+    }
+
+
 
 }
 

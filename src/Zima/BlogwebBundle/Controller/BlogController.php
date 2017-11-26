@@ -49,8 +49,8 @@ class BlogController extends Controller
             "owner" => $this->getUser(), //user widzi tylko swoje spisy
         ));
 
-        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
-        $rows1 = $Repo->findBy(array(
+        $Repo1 = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
+        $rows1 = $Repo1->findBy(array(
             "username" => $this->getUser()
         ));
 
@@ -60,7 +60,6 @@ class BlogController extends Controller
             'rows1' => $rows1
         );
     }
-
 
     /**
      * @Route("/addcontents", name="blog_addcontents")
@@ -134,9 +133,15 @@ class BlogController extends Controller
             }
         }
 
+        $selectComments = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Comments')->findBy(array(
+            "deleted" => false, //nie usunięte
+            "posts" => $comments->getPosts()
+        ));
+
         return array(
             'post' => $post,
-            'commentForm' => $commentForm->createView()
+            'commentForm' => $commentForm->createView(),
+            'selectcomments' => $selectComments
         );
     }
 
@@ -200,9 +205,33 @@ class BlogController extends Controller
     }
 
     /**
+     * @Route("/delete/comment/{id}", name="blog_del_comment")
+     * @return Response
+     */
+    public function deletedCommentAction(Comments $comments, Post $post)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if($this->getUser() !== $comments->getOwner()) {
+            throw new AccessDeniedException();
+        }
+
+        $comments->setDeleted(Comments::STATUS_DELETED_TRUE);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($comments);
+        $em->flush();
+
+        $this->addFlash('warning', "Komentarz został usunięty");
+
+        return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
+    }
+
+    /**
      * @Route("/user/settings/{id}", name="blog_settings")
      * @param User $user
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Template()
      */
     public function settingsAction(Request $request, User $user)
