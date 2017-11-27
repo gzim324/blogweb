@@ -1,0 +1,23 @@
+{% extends '@ZimaBlogweb/base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-lg-8 col-md-8 col-xs-12">
+        {% for content in result %}
+                <div class="well">
+                    <center><p style="font-size: 25px;">{{ content.title }}</p></center>
+                    <p>{{ content.createdAt|date('Y-m-d H:i') }}</p> <hr>
+                    <p><b>{{ content.contents|slice(0, 570) ~ '...' }}</b></p>
+                    <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
+                </div>
+        {% else %}
+            <div class="col-xs-12 col-sm-7 col-md-9">
+                <div class="well">
+                    <center> <h3>No results found</h3> </center>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

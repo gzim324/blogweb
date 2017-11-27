@@ -2,6 +2,7 @@
 
 namespace Zima\BlogwebBundle\Repository;
 
+use Symfony\Component\HttpFoundation\Request;
 use Zima\BlogwebBundle\Entity\User;
 
 class UserRepository extends \Doctrine\ORM\EntityRepository
@@ -17,4 +18,5 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
 }

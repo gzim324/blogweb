@@ -2,6 +2,7 @@
 
 namespace Zima\BlogwebBundle\Repository;
 
+use Symfony\Component\HttpFoundation\Request;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 
@@ -38,6 +39,20 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->andWhere("post.owner = :owner")
             ->setParameter("owner", $user->getId())
             ->orderBy("post.createdAt", "DESC")
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function searchContents(Request $request) {
+        return $this->createQueryBuilder('post')
+            ->where('post.tags LIKE :search')
+            ->orWhere('post.title LIKE :search')
+            ->orWhere('post.contents LIKE :search')
+            ->setParameter('search', '%'.$request->get('search').'%')
             ->getQuery()
             ->getResult();
     }

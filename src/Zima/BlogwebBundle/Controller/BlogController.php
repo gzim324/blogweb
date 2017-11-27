@@ -28,12 +28,6 @@ class BlogController extends Controller
 
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
 
-//        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
-//        $rows = $Repo->findBy(array(
-//            "deleted" => false, //nie usunięte
-//            //user ma widziec wpisy tylko userow ktorych obserwuje
-//        ));
-
         return array(
             'rows' => $rows
         );
@@ -48,16 +42,7 @@ class BlogController extends Controller
     public function userBlogAction(User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-//        $Repo = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Post');
-//        $rows = $Repo->findBy(array(
-//            "deleted" => false, //nie usunięte
-//            "owner" => $user->getId() //user widzi tylko swoje spisy
-//        ));
 
-//        $Repo1 = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User');
-//        $rows1 = $Repo1->findBy(array(
-//            "id" => $user->getId()
-//        ));
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
         $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findInfo($user);
 
@@ -165,10 +150,7 @@ class BlogController extends Controller
         }
 
         $selectComments = $this->getDoctrine()->getManager()->getRepository(Comments::class)->selectComment($comments);
-//        $selectComments = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:Comments')->findBy(array(
-//            "deleted" => false, //nie usunięte
-//            "posts" => $comments->getPosts()
-//        ));
+
 
 //        if($this->$post == $this->getUser()) {
 //            return $this->redirectToRoute(return $this->redirectToRoute("blog_content", ['id' => $post->getId()]));
@@ -292,6 +274,22 @@ class BlogController extends Controller
 
         return array(
             'form' => $form->createView()
+        );
+    }
+
+
+    /**
+     * @Route("/search", name="blog_search")
+     * @param Request $request
+     * @return array
+     * @Template()
+     */
+    public function searchContentsAction(Request $request) {
+
+        $result = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
+
+        return array(
+            'result' => $result
         );
     }
 }

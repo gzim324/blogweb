@@ -22,9 +22,9 @@
                             <li><a href="{{ path('blog_addcontents') }}">Add contents</a></li>
                         </ul>
 
-                        <form class="navbar-form navbar-left">
+                        <form class="navbar-form navbar-left" method="post" action="{{ path('blog_search') }}">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Search">
+                                <input type="text" name="search" class="form-control" placeholder="Search Contents">
                             </div>
                         </form>
 
