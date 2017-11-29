@@ -21,8 +21,8 @@
 
     {#wyswietlenie komentarza#}
     {% for comment in selectcomments %}
-        <div class="well">
-            <u><b>{{ comment.owner }}</b> {{ comment.createdAt|date('Y-m-d H:i') }}</u> <hr>
+        <div class="well well-sm">
+            <p><b>{{ comment.owner }}</b> ({{ comment.createdAt|date('Y-m-d H:i') }})</p>
             <p>{{ comment.comment }}</p>
             {#<a class="btn btn-danger" href="{{ path('blog_del_comment', {"id": comment.id}) }}">X</a>#}
         </div>

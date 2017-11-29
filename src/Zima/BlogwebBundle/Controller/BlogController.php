@@ -93,7 +93,6 @@ class BlogController extends Controller
      * @Template()
      * @param Post $post
      * @param Request $request
-     * @return Response
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function contentsUserAction(Post $post, Request $request) {

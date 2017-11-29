@@ -13,7 +13,10 @@ What's needed?
   * [**StofDoctrineExtensionsBundle**][1]
 
   * [**FOSUserBundle**][2]
+  
+  * [**IvoryCKEditorBundle**][3]
 
 
 [1]:  https://symfony.com/doc/master/bundles/StofDoctrineExtensionsBundle/index.html
 [2]:  https://symfony.com/doc/master/bundles/FOSUserBundle/index.html
+[3]:  https://symfony.com/doc/master/bundles/IvoryCKEditorBundle/index.html
