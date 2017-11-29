@@ -21,6 +21,7 @@ class BlogController extends Controller
     /**
      * @Route("/", name="blog_other")
      * @Template()
+     * @return array
      */
     public function otherAction()
     {
@@ -88,46 +89,25 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/contentU/{id}", name="blog_contentUser")
-     * @Template()
-     * @param Post $post
-     * @return array
-     */
-    public function contentsUserAction(Post $post) {
-        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-
-        if($this->getUser() !== $post->getOwner()) {
-            throw new AccessDeniedException();
-        }
-
-        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_other");
-        }
-
-
-
-        return array(
-            'post' => $post
-        );
-    }
-
-    /**
-     * @Route("/contents/{id}", name="blog_content")
+     * @Route("/mycontents/{id}", name="blog_mycontent")
      * @Template()
      * @param Post $post
      * @param Request $request
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @return Response
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function contentsAction(Post $post, Request $request)
-    {
+    public function contentsUserAction(Post $post, Request $request) {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "Taki wpis nie istnieje");
             return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }
+
+        if($this->getUser() !== $post->getOwner()) {
+            return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
+        }
+
         //////add comment
         $comments = new Comments();
         $comments->setOwner($this->getUser());  //ustawiam autora wpisu
@@ -151,10 +131,56 @@ class BlogController extends Controller
 
         $selectComments = $this->getDoctrine()->getManager()->getRepository(Comments::class)->selectComment($comments);
 
+        return array(
+            'post' => $post,
+            'commentForm' => $commentForm->createView(),
+            'selectcomments' => $selectComments
+        );
+    }
 
-//        if($this->$post == $this->getUser()) {
-//            return $this->redirectToRoute(return $this->redirectToRoute("blog_content", ['id' => $post->getId()]));
-//        }
+    /**
+     * @Route("/contents/{id}", name="blog_content")
+     * @param Post $post
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
+     * @Template()
+     */
+    public function contentsAction(Post $post, Request $request)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
+            $this->addFlash("error", "Taki wpis nie istnieje");
+            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+        }
+
+        if($this->getUser() === $post->getOwner()) {
+            return $this->redirectToRoute("blog_mycontent", ['id' => $post->getId()]);
+        }
+
+        //////add comment
+        $comments = new Comments();
+        $comments->setOwner($this->getUser());  //ustawiam autora wpisu
+        $comments->setPosts($post);
+        $commentForm = $this->createForm(CommentType::class, $comments);
+
+        if($request->isMethod('POST')) {
+            $commentForm->handleRequest($request);
+            if($commentForm->isValid()){
+                $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($comments);
+                $em->flush();
+
+                $this->addFlash('success', "Komentarz został dodany");
+                return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
+            }else{
+                $this->addFlash('error', "Komentarz nie mógł zostać dodany");
+            }
+        }
+
+        $selectComments = $this->getDoctrine()->getManager()->getRepository(Comments::class)->selectComment($comments);
 
         return array(
             'post' => $post,

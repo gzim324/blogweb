@@ -18,12 +18,12 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
      * @return array
      */
     public function findUndeletedPost() {
-        return $this->createQueryBuilder("a")
-            ->where("a.deleted = :false")
+        return $this->createQueryBuilder("post")
+            ->where("post.deleted = :false")
             ->setParameter("false", Post::STATUS_DELETED_FALSE)
-//            ->andWhere("a.createdAt > :now")
-//            ->setParameter("now", new \DateTime())
-            ->orderBy("a.createdAt", "DESC")
+//            ->andwhere("post.owner = :user")
+//            ->setParameter("user", $user->getId())
+            ->orderBy("post.createdAt", "DESC")
             ->getQuery()
             ->getResult();
     }

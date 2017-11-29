@@ -1,15 +1,12 @@
 {% extends '@ZimaBlogweb/base.html.twig' %}
 
 {% block body %}
-    {#<div class="col-xs-12 col-sm-12 col-md-12">#}
 
-        <div class="well">
-            <p style="font-size: 25px;">{{ post.title }}</p>
-            <p>wrote: <i>{{ post.owner }}</i> {{ post.createdAt|date('Y-m-d H:i') }} </p> <hr>
-            {{ post.contents|raw }}
-        </div>
-
-    {#</div>#}
+    <div class="well">
+        <p style="font-size: 25px;">{{ post.title }}</p>
+        <p>wrote: <i>{{ post.owner }}</i> {{ post.createdAt|date('Y-m-d H:i') }} </p> <hr>
+        {{ post.contents|raw }}
+    </div>
 
     <hr>
     <h3>Comments:</h3>
