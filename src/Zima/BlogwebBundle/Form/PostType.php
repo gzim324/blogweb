@@ -18,7 +18,18 @@ class PostType extends AbstractType
         $builder
             ->add("title", TextType::class)
             ->add("tags", TextType::class)
-            ->add("contents", CKEditorType::class)
+            ->add("contents", CKEditorType::class, array(
+                'config' => array(
+                    'uiColor' => '#ffffff',
+                    'toolbar' => [
+                        ["Maximize"],
+                        ["Cut", "Copy", "Paste"], ["Undo", "Redo"],
+                        ["Bold", "Italic", "Underline", "Strike"], ["NumberedList"], ["BulletedList"], ["Outdent"], ["Indent"], ["Blockquote"],
+                        ["Link"], ["Format"],
+                        ["Styles"], ["Scayt"]
+                    ]
+                ),
+            ))
 //            ->add("contents", TextareaType::class, array('attr' => array('rows' => '22')))
             ->add("submit", SubmitType::class, array('label' => 'ADD'));
     }
