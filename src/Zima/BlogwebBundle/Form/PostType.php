@@ -21,13 +21,7 @@ class PostType extends AbstractType
             ->add("contents", CKEditorType::class, array(
                 'config' => array(
                     'uiColor' => '#ffffff',
-                    'toolbar' => [
-                        ["Maximize"],
-                        ["Cut", "Copy", "Paste"], ["Undo", "Redo"],
-                        ["Bold", "Italic", "Underline", "Strike"], ["NumberedList"], ["BulletedList"], ["Outdent"], ["Indent"], ["Blockquote"],
-                        ["Link"], ["Format"],
-                        ["Styles"], ["Scayt"]
-                    ]
+                    'toolbar' => 'full'
                 ),
             ))
 //            ->add("contents", TextareaType::class, array('attr' => array('rows' => '22')))
