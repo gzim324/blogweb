@@ -7,7 +7,7 @@
                 <div class="well">
                     <center><p style="font-size: 25px;">{{ content.title }}</p></center>
                     <p>wrote: {{ content.owner }} {{ content.createdAt|date('Y-m-d H:i') }} </p> <hr>
-                    <p><b>{{ content.contents|slice(0, 570) ~ '...' }}</b></p>
+                    <p><b>{{ content.shortdescription }}</b></p>
                     <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
                 </div>
         {% else %}

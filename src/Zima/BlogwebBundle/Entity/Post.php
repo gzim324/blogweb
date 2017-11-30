@@ -37,15 +37,15 @@ class Post
 
     /**
      * @var string
-     * @ORM\Column(name="short_description", type="text")
+     * @ORM\Column(name="shortdescription", type="text")
      * @Assert\Length(
-     *     min = 50,
+     *     min = 200,
      *     max = 570,
      *     minMessage = "This field must be at least 50 characters long",
      *     maxMessage = "This field cannot be longer than 570 characters"
      * )
      */
-    private $short_description;
+    private $shortdescription;
 
     /**
      * @var string
@@ -284,17 +284,17 @@ class Post
     /**
      * @return string
      */
-    public function getShortDescription()
+    public function getShortdescription()
     {
-        return $this->short_description;
+        return $this->shortdescription;
     }
 
     /**
-     * @param string $short_description
+     * @param string $shortdescription
      */
-    public function setShortDescription($short_description)
+    public function setShortdescription($shortdescription)
     {
-        $this->short_description = $short_description;
+        $this->shortdescription = $shortdescription;
     }
 
 }
