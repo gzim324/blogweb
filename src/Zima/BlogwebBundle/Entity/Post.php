@@ -31,15 +31,27 @@ class Post
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
-     * @Assert\NotBlank(message="To pole nie może być puste")
+     * @Assert\NotBlank(message="This field cannot be blank")
      */
     private $title;
 
     /**
      * @var string
+     * @ORM\Column(name="short_description", type="text")
+     * @Assert\Length(
+     *     min = 50,
+     *     max = 570,
+     *     minMessage = "This field must be at least 50 characters long",
+     *     maxMessage = "This field cannot be longer than 570 characters"
+     * )
+     */
+    private $short_description;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="contents", type="text")
-     * @Assert\NotBlank(message="To pole nie może być puste")
+     * @Assert\NotBlank(message="This field cannot be blank")
      */
     private $contents;
 
@@ -267,6 +279,22 @@ class Post
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->short_description;
+    }
+
+    /**
+     * @param string $short_description
+     */
+    public function setShortDescription($short_description)
+    {
+        $this->short_description = $short_description;
     }
 
 }

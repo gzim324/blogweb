@@ -22,15 +22,26 @@ class BlogController extends Controller
      * @Route("/", name="blog_other")
      * @Template()
      * @return array
+     * @param Request $request
      */
-    public function otherAction()
+    public function otherAction(Request $request)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
 
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
 
+
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+
+
+
         return array(
-            'rows' => $rows
+            'rows' => $result
         );
     }
 
@@ -39,16 +50,24 @@ class BlogController extends Controller
      * @Template()
      * @return array
      * @param User $user
+     * @param Request $request
      */
-    public function userBlogAction(User $user)
+    public function userBlogAction(User $user, Request $request)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
 
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
         $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findInfo($user);
 
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+
         return array(
-            'rows' => $rows,
+            'rows' => $result,
             'rows1' => $rows1
         );
     }
@@ -66,8 +85,8 @@ class BlogController extends Controller
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
 
+        $form->handleRequest($request);
         if($request->isMethod('POST')) {
-            $form->handleRequest($request);
             if($form->isValid()){
                 $post->setDeleted(Post::STATUS_DELETED_FALSE) //ustawiam usunięty na FALSE
                 ->setOwner($this->getUser());  //ustawiam autora wpisu
@@ -76,10 +95,10 @@ class BlogController extends Controller
                 $em->persist($post);
                 $em->flush();
 
-                $this->addFlash('success', "Wpis został dodany");
+                $this->addFlash('success', "The contents has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
             }else{
-                $this->addFlash('error', "Wpis nie mógł zostać dodany");
+                $this->addFlash('error', "The contents cannot be added");
             }
         }
 
@@ -121,10 +140,10 @@ class BlogController extends Controller
                 $em->persist($comments);
                 $em->flush();
 
-                $this->addFlash('success', "Komentarz został dodany");
+                $this->addFlash('success', "The comment has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
             }else{
-                $this->addFlash('error', "Komentarz nie mógł zostać dodany");
+                $this->addFlash('error', "The comment cannot be added");
             }
         }
 
@@ -150,7 +169,7 @@ class BlogController extends Controller
         $this->denyAccessUnlessGranted("ROLE_USER");
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "Taki wpis nie istnieje");
+            $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }
 
@@ -172,10 +191,10 @@ class BlogController extends Controller
                 $em->persist($comments);
                 $em->flush();
 
-                $this->addFlash('success', "Komentarz został dodany");
+                $this->addFlash('success', "The comment has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
             }else{
-                $this->addFlash('error', "Komentarz nie mógł zostać dodany");
+                $this->addFlash('error', "The comment cannot be deleted");
             }
         }
 
@@ -214,7 +233,7 @@ class BlogController extends Controller
             $em->persist($post);
             $em->flush();
 
-            $this->addFlash("success", "Wpis został zaktualizowany");
+            $this->addFlash("success", "The contents has been updated");
 
             return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
         }
@@ -242,7 +261,7 @@ class BlogController extends Controller
         $em->persist($post);
         $em->flush();
 
-        $this->addFlash('warning', "Wpis został usunięty");
+        $this->addFlash('warning', "The contents has been deleted");
 
         return $this->redirectToRoute('blog_user', ["id" => $this->getUser()]);
     }
@@ -265,7 +284,7 @@ class BlogController extends Controller
         $em->persist($comments);
         $em->flush();
 
-        $this->addFlash('warning', "Komentarz został usunięty");
+        $this->addFlash('warning', "The comment has been deleted");
         return $this->redirectToRoute('blog_content', ['id' => $comments->getPosts()]);
     }
 
@@ -291,10 +310,10 @@ class BlogController extends Controller
         $em->persist($user);
         $em->flush();
 
-            $this->addFlash('success', 'Informacje dodane');
+            $this->addFlash('success', 'The information has been added');
             return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
         }else {
-            $this->addFlash('error', 'Informacje nie mogły zostać dodane');
+            $this->addFlash('error', 'The information could not be added');
         }
 
         return array(
@@ -311,8 +330,14 @@ class BlogController extends Controller
      */
     public function searchContentsAction(Request $request) {
 
-        $result = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
+        $rows = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
 
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
         return array(
             'result' => $result
         );

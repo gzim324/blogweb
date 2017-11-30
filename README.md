@@ -15,8 +15,11 @@ What's needed?
   * [**FOSUserBundle**][2]
   
   * [**IvoryCKEditorBundle**][3]
+  
+  * [**KnpPaginatorBundle**][4]
 
 
 [1]:  https://symfony.com/doc/master/bundles/StofDoctrineExtensionsBundle/index.html
 [2]:  https://symfony.com/doc/master/bundles/FOSUserBundle/index.html
 [3]:  https://symfony.com/doc/master/bundles/IvoryCKEditorBundle/index.html
+[4]:  https://github.com/KnpLabs/KnpPaginatorBundle

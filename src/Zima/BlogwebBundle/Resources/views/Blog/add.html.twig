@@ -10,6 +10,9 @@
     {{ form_widget(form.tags, {'attr': {'placeholder': 'tags'}}) }}
     </div>
     <div class="form-group">
+        {{ form_widget(form.short_description, {'attr': {'placeholder': 'Short description'}}) }}
+    </div>
+    <div class="form-group">
     {{ form_widget(form.contents, {'attr': {'placeholder': 'Contents…'}}) }}
     </div>
     {{ form_end(form) }}

@@ -18,6 +18,7 @@ class PostType extends AbstractType
         $builder
             ->add("title", TextType::class)
             ->add("tags", TextType::class)
+            ->add("short_description", TextareaType::class, array('attr' => array('rows' => '3')))
             ->add("contents", CKEditorType::class, array(
                 'config' => array(
                     'uiColor' => '#ffffff',
