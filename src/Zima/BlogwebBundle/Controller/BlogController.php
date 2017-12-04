@@ -29,6 +29,7 @@ class BlogController extends Controller
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
 
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
+//        $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findUser($user);
 
 
         $paginator = $this->get('knp_paginator');
@@ -46,7 +47,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/user/{id}", name="blog_user")
+     * @Route("/user/{username}", name="blog_user")
      * @Template()
      * @return array
      * @param User $user
@@ -119,7 +120,7 @@ class BlogController extends Controller
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
         }
 
         if($this->getUser() !== $post->getOwner()) {
@@ -170,7 +171,7 @@ class BlogController extends Controller
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
-            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
         }
 
         if($this->getUser() === $post->getOwner()) {
@@ -224,7 +225,7 @@ class BlogController extends Controller
 
         if($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
         }
         $form = $this->createForm(PostType::class, $post);
         if($request->isMethod('POST')) {
@@ -263,7 +264,7 @@ class BlogController extends Controller
 
         $this->addFlash('warning', "The contents has been deleted");
 
-        return $this->redirectToRoute('blog_user', ["id" => $this->getUser()]);
+        return $this->redirectToRoute('blog_user', ["username" => $this->getUser()]);
     }
 
     /**
@@ -311,7 +312,7 @@ class BlogController extends Controller
         $em->flush();
 
             $this->addFlash('success', 'The information has been added');
-            return $this->redirectToRoute("blog_user", ["id" => $this->getUser()]);
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
         }else {
             $this->addFlash('error', 'The information could not be added');
         }

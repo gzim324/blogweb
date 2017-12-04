@@ -6,15 +6,16 @@
         {% for content  in rows%}
                 <div class="well">
                     <center><p style="font-size: 25px;">{{ content.title }}</p></center>
-                    <p>wrote: <i><a href="{{ path('blog_user', {'id': content.owner}) }}">{{ content.owner }}</a></i> {{ content.createdAt|date('Y-m-d H:i') }} </p> <hr>
+                    <p>wrote: <i><a href="{{ path('blog_user', {'username': content.owner}) }}">{{ content.owner }}</a></i> {{ content.createdAt|date('Y-m-d H:i') }} </p> <hr>
                     <p><b>{{ content.shortdescription }}</b></p>
                     <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
                 </div>
         {% else %}
                 <div class="well">
-                    <center> <h3>You have not got friends yet</h3> </center>
+                    <center> <h3>You haven't got friends yet</h3> </center>
                 </div>
         {% endfor %}
+
 
         <div class="navigation text-center">
             {{ knp_pagination_render(rows) }}

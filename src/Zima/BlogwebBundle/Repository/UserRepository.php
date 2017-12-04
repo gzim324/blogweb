@@ -19,17 +19,5 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-//    /**
-//     * @param User $user
-//     * @return array
-//     */
-//    public function findUserById() {
-//        return $this->createQueryBuilder("user")
-//            ->andWhere("post.owner = :owner")
-//            ->setParameter("owner", $user->getId())
-//            ->orderBy("post.createdAt", "DESC")
-//            ->getQuery()
-//            ->getResult();
-//    }
 
 }
