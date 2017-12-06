@@ -37,25 +37,25 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(name="fullname", type="string", length=50)
+     * @ORM\Column(name="fullname", type="string", length=50, nullable=true)
      */
     private $fullname;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="birthday", type="datetime")
+     * @ORM\Column(name="birthday", type="datetime", nullable=true)
      */
     private $birthday;
 
     /**
      * @var string
-     * @ORM\Column(name="interests", type="string", length=255)
+     * @ORM\Column(name="interests", type="string", length=255, nullable=true)
      */
     private $interests;
 
     /**
      * @var string
-     * @ORM\Column(name="about_me", type="text")
+     * @ORM\Column(name="about_me", type="text", nullable=true)
      */
     private $aboutme;
 
@@ -172,7 +172,5 @@ class User extends BaseUser
     {
         $this->comment = $comment;
     }
-
-
 
 }

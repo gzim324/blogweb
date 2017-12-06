@@ -20,6 +20,7 @@ class SettingsType extends AbstractType
             ->add("birthday", DateTimeType::class)
             ->add("interests", TextType::class)
             ->add("aboutme", TextareaType::class, array('attr' => array('rows' => '4')))
+            ->add("username", TextType::class)
             ->add("submit", SubmitType::class, array('label' => 'Update'));
     }
 

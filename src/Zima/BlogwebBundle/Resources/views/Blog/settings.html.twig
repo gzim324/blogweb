@@ -1,7 +1,44 @@
 {% extends '@ZimaBlogweb/base.html.twig' %}
 
 {% block body %}
-    <h1>Settings</h1>
-    {{ form(form, {"attr": {"novalidate": "novalidate"}}) }}
+    {#<center><h1>Settings</h1></center>#}
+    <div class="col-lg-6 col-md-6 col-xs-12">
+        <h2>Profile</h2> <hr>
+        {{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+        <div class="form-group">
+            <label>Username</label> {{ form_widget(form.username) }}
+        </div>
+        <div class="form-group">
+            <label>Fullname</label> {{ form_widget(form.fullname) }}
+        </div>
+        <div class="form-group">
+            <label>Interests</label> {{ form_widget(form.interests) }}
+        </div>
+        <div class="form-group">
+            <label>About Me</label> {{ form_widget(form.aboutme) }}
+        </div>
+        <div class="form-group">
+            <label>Birthday</label> {{ form_widget(form.birthday) }}
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-12">
+        <h2>Account</h2> <hr>
+        <div class="form-group">
+            <label>Email</label> <a href="#"><i>Change email</i></a>
+        </div>
+        <div class="form-group">
+            <label>Password</label> <a href="#"><i>Change password</i></a>
+        </div>
+        <div class="form-group">
+            <a href="#"><i>Delete an account</i></a> // czy na pewno
+        </div>
+    </div>
+    {{ form_end(form) }} <br>
+
+
+
 
 {% endblock %}

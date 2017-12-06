@@ -32,6 +32,8 @@
                     <p>{{ info.birthday|date("Y-m-d") }}</p>
                     <p>{{ info.interests }}</p>
                     <p>{{ info.aboutme }}</p>
+                {% else %}
+                    <p>Uzupełnij informacje o sobie</p>
                 {% endfor %}
                  {#a href settings#}
             </div>

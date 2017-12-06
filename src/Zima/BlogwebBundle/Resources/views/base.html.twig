@@ -8,44 +8,57 @@
 </head>
 <body>
 
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="{{ path('blog_other') }}">
+                    <img src="{{ asset('logo.png') }}" class="img img-responsive" width="200">
+                </a>
+            </div>
     {% if is_granted("ROLE_USER") %}
-        <div>
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <img src="{{ asset('logo.png') }}" class="img img-responsive" width="200">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ path('blog_home') }}">Home <span class="sr-only"></span></a></li>
+                    <li><a href="{{ path('blog_addcontents') }}">Add contents</a></li>
+                </ul>
+
+                <form class="navbar-form navbar-left" method="post" action="{{ path('blog_search') }}">
+                    <div class="form-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search Contents">
                     </div>
+                </form>
 
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ path('blog_other') }}">Home <span class="sr-only"></span></a></li>
-                            <li><a href="{{ path('blog_addcontents') }}">Add contents</a></li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('blog_user', {"username": app.user.username}) }}">Show Profile</a></li>
+                            <li><a href="{{ path('blog_settings', {"id": app.user.id}) }}">Settings</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
                         </ul>
-
-                        <form class="navbar-form navbar-left" method="post" action="{{ path('blog_search') }}">
-                            <div class="form-group">
-                                <input type="text" name="search" class="form-control" placeholder="Search Contents">
-                            </div>
-                        </form>
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ path('blog_user', {"username": app.user.username}) }}">Show Profile</a></li>
-                                    <li><a href="{{ path('blog_settings', {"id": app.user.id}) }}">Settings</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-            </nav>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <br>
+    {% else %}
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <form class="navbar-form navbar-left" method="post" action="{{ path('blog_search') }}">
+                    <div class="form-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search Contents">
+                    </div>
+                </form>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ path('fos_user_security_login') }}"><u>Sign In</u></a></li>
+                    <li><a href="{{ path('fos_user_registration_register') }}"><u>Sign Up</u></a></li>
+                </ul>
+
+            </div>
+        </div>
     {% endif %}
+    </nav> <br>
 
     <div class="container" style="margin-top: 50px;">
         {% for message in app.flashes("success") %}

@@ -22,14 +22,12 @@ class BlogController extends Controller
      * @Route("/", name="blog_other")
      * @Template()
      * @return array
-     * @param Request $request
      */
     public function otherAction(Request $request)
     {
-        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-
+        //kazdy ma dostęp
+//
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
-//        $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findUser($user);
 
 
         $paginator = $this->get('knp_paginator');
@@ -38,8 +36,6 @@ class BlogController extends Controller
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );
-
-
 
         return array(
             'rows' => $result
@@ -70,6 +66,31 @@ class BlogController extends Controller
         return array(
             'rows' => $result,
             'rows1' => $rows1
+        );
+    }
+
+    /**
+     * @Route("/friends/contents", name="blog_home")
+     * @Template()
+     * @return array
+     * @param Request $request
+     */
+    public function friendsContentsAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
+
+        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
+
+
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+
+        return array(
+            'rows' => $result
         );
     }
 
@@ -119,7 +140,7 @@ class BlogController extends Controller
         $this->denyAccessUnlessGranted("ROLE_USER");
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "Taki wpis nie istnieje");
+            $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
         }
 
@@ -219,14 +240,15 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
+        if($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
+            $this->addFlash("error", "This contents does not exist");
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
+        }
+
         if($this->getUser() !== $post->getOwner()) {
             throw new AccessDeniedException();
         }
 
-        if($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "Taki wpis nie istnieje");
-            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
-        }
         $form = $this->createForm(PostType::class, $post);
         if($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -286,7 +308,8 @@ class BlogController extends Controller
         $em->flush();
 
         $this->addFlash('warning', "The comment has been deleted");
-        return $this->redirectToRoute('blog_content', ['id' => $comments->getPosts()]);
+
+        return $this->redirect($this->generateUrl("blog_content", ['id' => $comments->getPosts()]));
     }
 
     /**
@@ -313,9 +336,70 @@ class BlogController extends Controller
 
             $this->addFlash('success', 'The information has been added');
             return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
-        }else {
-            $this->addFlash('error', 'The information could not be added');
         }
+
+
+        return array(
+            'form' => $form->createView()
+        );
+    }
+    /**
+     * @Route("/user/settings/private/{id}", name="blog_settings_private")
+     * @param User $user
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @Template()
+     */
+    public function privateAction(Request $request, User $user)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if(!$this->getUser()) {
+            throw new AccessDeniedException();
+        }
+
+        $form = $this->createForm(SettingsType::class, $user);
+        if($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'The information has been added');
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
+        }
+
+
+        return array(
+            'form' => $form->createView()
+        );
+    }
+    /**
+     * @Route("/user/settings/account/{id}", name="blog_settings_account")
+     * @param User $user
+     * @param Request $request
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @Template()
+     */
+    public function accountAction(Request $request, User $user)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if(!$this->getUser()) {
+            throw new AccessDeniedException();
+        }
+
+        $form = $this->createForm(SettingsType::class, $user);
+        if($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash('success', 'The information has been added');
+            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
+        }
+
 
         return array(
             'form' => $form->createView()

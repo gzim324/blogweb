@@ -1,0 +1,30 @@
+{% extends '@ZimaBlogweb/base.html.twig' %}
+
+{% block body %}
+
+    <div class="col-xs-12 col-sm-7 col-md-9">
+
+        <div class="well">
+            <h3><center>Narazie nic tu nie znajdziesz</center><br>…ale po wprowadzeniu relacji między użytkownikami, pojawią się tutaj posty 'zaprzyjaźnionych' userów</h3>
+        </div>
+
+        {#{% for content  in rows%}#}
+            {#<div class="well">#}
+                {#<center><p style="font-size: 25px;">{{ content.title }}</p></center>#}
+                {#<p>wrote: <i><a href="{{ path('blog_user', {'username': content.owner}) }}">{{ content.owner }}</a></i> {{ content.createdAt|date('Y-m-d H:i') }} </p> <hr>#}
+                {#<p><b>{{ content.shortdescription }}</b></p>#}
+                {#<a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>#}
+            {#</div>#}
+        {#{% else %}#}
+            {#<div class="well">#}
+                {#<center> <h3>You haven't got friends yet</h3> </center>#}
+            {#</div>#}
+        {#{% endfor %}#}
+
+
+        {#<div class="navigation text-center">#}
+            {#{{ knp_pagination_render(rows) }}#}
+        {#</div>#}
+    </div>
+
+{% endblock %}
