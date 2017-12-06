@@ -343,69 +343,6 @@ class BlogController extends Controller
             'form' => $form->createView()
         );
     }
-    /**
-     * @Route("/user/settings/private/{id}", name="blog_settings_private")
-     * @param User $user
-     * @param Request $request
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Template()
-     */
-    public function privateAction(Request $request, User $user)
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER");
-
-        if(!$this->getUser()) {
-            throw new AccessDeniedException();
-        }
-
-        $form = $this->createForm(SettingsType::class, $user);
-        if($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', 'The information has been added');
-            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
-        }
-
-
-        return array(
-            'form' => $form->createView()
-        );
-    }
-    /**
-     * @Route("/user/settings/account/{id}", name="blog_settings_account")
-     * @param User $user
-     * @param Request $request
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Template()
-     */
-    public function accountAction(Request $request, User $user)
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER");
-
-        if(!$this->getUser()) {
-            throw new AccessDeniedException();
-        }
-
-        $form = $this->createForm(SettingsType::class, $user);
-        if($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            $this->addFlash('success', 'The information has been added');
-            return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
-        }
-
-
-        return array(
-            'form' => $form->createView()
-        );
-    }
-
 
     /**
      * @Route("/search", name="blog_search")
