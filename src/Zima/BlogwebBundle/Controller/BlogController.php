@@ -188,7 +188,7 @@ class BlogController extends Controller
      */
     public function contentsAction(Post $post, Request $request)
     {
-        $this->denyAccessUnlessGranted("ROLE_USER");
+//        $this->denyAccessUnlessGranted("ROLE_USER");
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
@@ -291,7 +291,8 @@ class BlogController extends Controller
 
     /**
      * @Route("/delete/comment/{id}", name="blog_del_comment")
-     * @return Response
+     * @param Comments $comments
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deletedCommentAction(Comments $comments)
     {
@@ -308,8 +309,8 @@ class BlogController extends Controller
         $em->flush();
 
         $this->addFlash('warning', "The comment has been deleted");
+        return $this->redirectToRoute('blog_other');
 
-        return $this->redirect($this->generateUrl("blog_content", ['id' => $comments->getPosts()]));
     }
 
     /**

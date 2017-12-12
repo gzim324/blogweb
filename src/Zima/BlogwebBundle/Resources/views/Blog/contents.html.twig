@@ -24,11 +24,14 @@
     <hr>
     <h3>Comments:</h3>
 
-    {{ form_start(commentForm, {"attr": {"novalidate": "novalidate"}}) }}
-    <div class="form-group">
-        {{ form_widget(commentForm.comment, {'attr': {'placeholder': 'Write a comment'}}) }}
-    </div>
-    {{ form_end(commentForm) }} <br>
+
+    {% if is_granted("ROLE_USER") %}
+        {{ form_start(commentForm, {"attr": {"novalidate": "novalidate"}}) }}
+        <div class="form-group">
+            {{ form_widget(commentForm.comment, {'attr': {'placeholder': 'Write a comment'}}) }}
+        </div>
+        {{ form_end(commentForm) }} <br>
+    {% endif %}
 
     {#wyswietlenie komentarza#}
     {% for comment in selectcomments %}
@@ -36,6 +39,10 @@
             <p><b>{{ comment.owner }}</b> ({{ comment.createdAt|date('Y-m-d H:i') }})</p>
             <p>{{ comment.comment }}</p>
             <a class="btn btn-danger" href="{{ path('blog_del_comment', {"id": comment.id}) }}">X</a>
+        </div>
+    {% else %}
+        <div class="well">
+            <p>Brak komentarzy</p>
         </div>
     {% endfor %}
 
