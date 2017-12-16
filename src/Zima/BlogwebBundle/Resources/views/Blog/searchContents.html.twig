@@ -11,11 +11,9 @@
                     <a href="{{ path('blog_content', {"id": content.id}) }}">More…</a>
                 </div>
         {% else %}
-            <div class="col-xs-12 col-sm-7 col-md-9">
                 <div class="well">
                     <center> <h3>No results found</h3> </center>
                 </div>
-            </div>
         {% endfor %}
         <div class="navigation text-center">
             {{ knp_pagination_render(result) }}

@@ -345,6 +345,29 @@ class BlogController extends Controller
         );
     }
 
+
+    /**
+     * @Route("/delete/account/{id}", name="blog_delete_account")
+     * @param User $user
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAccountAction(User $user) {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        if(!$this->getUser()) {
+            throw new AccessDeniedException();
+        }
+
+        $user->setEnabled("0");
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->addFlash('danger', "Your account has deleted");
+        return $this->redirectToRoute('fos_user_security_logout');
+    }
+
     /**
      * @Route("/search", name="blog_search")
      * @param Request $request
