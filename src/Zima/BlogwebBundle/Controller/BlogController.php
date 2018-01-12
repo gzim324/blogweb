@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zima\BlogwebBundle\Entity\Comments;
+use Zima\BlogwebBundle\Entity\Friends;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 use Zima\BlogwebBundle\Form\PostType;
@@ -25,8 +26,8 @@ class BlogController extends Controller
      */
     public function otherAction(Request $request)
     {
-        //kazdy ma dostęp
-//
+        //everyone has access
+
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
 
 
@@ -70,17 +71,79 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/friends/contents", name="blog_home")
+     * @Route("/tabfriends/{username}", name="blog_tab_friends")
      * @Template()
      * @return array
+     * @param User $user
      * @param Request $request
      */
-    public function friendsContentsAction(Request $request)
+    public function tabFriendsAction(User $user, Request $request)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        $rows = $this->getDoctrine()->getManager()->getRepository(Friends::class)->selectFriends($user);
+
+
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+
+        return array(
+            'rows' => $result
+        );
+    }
+
+    /**
+     * @Route("/addfriend/{id}", name="blog_add_friend")
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @param User $user
+     * @param Request $request
+     */
+    public function addFriendAction(User $user, Request $request)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
 
-        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
+        $friend = new Friends();
+        $form = $request->get('addfriend');
 
+        $form->handleRequest($request);
+        if($request->isMethod('POST')) {
+            if($form->isValid()){
+                $friend->setOwner($this->getUser());
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($friend);
+                $em->flush();
+
+                $this->addFlash('success', "The contents has been added");
+                return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
+            }else{
+                $this->addFlash('error', "The contents cannot be added");
+            }
+        }
+
+
+
+        return array(
+
+        );
+    }
+
+    /**
+     * @Route("/friends/contents/{username}", name="blog_home")
+     * @Template()
+     * @return array
+     * @param Request $request
+     * @param Friends $friends
+     */
+    public function friendsContentsAction(Request $request, Friends $friends)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
+
+        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->friendsPost($friends);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
@@ -110,8 +173,8 @@ class BlogController extends Controller
         $form->handleRequest($request);
         if($request->isMethod('POST')) {
             if($form->isValid()){
-                $post->setDeleted(Post::STATUS_DELETED_FALSE) //ustawiam usunięty na FALSE
-                ->setOwner($this->getUser());  //ustawiam autora wpisu
+                $post->setDeleted(Post::STATUS_DELETED_FALSE) //I set deleted on FALSE
+                ->setOwner($this->getUser());  //I set the author of the content
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($post);
@@ -150,7 +213,7 @@ class BlogController extends Controller
 
         //////add comment
         $comments = new Comments();
-        $comments->setOwner($this->getUser());  //ustawiam autora wpisu
+        $comments->setOwner($this->getUser());  //I set the author of the comment
         $comments->setPosts($post);
         $commentForm = $this->createForm(CommentType::class, $comments);
 
@@ -188,7 +251,7 @@ class BlogController extends Controller
      */
     public function contentsAction(Post $post, Request $request)
     {
-//        $this->denyAccessUnlessGranted("ROLE_USER");
+//        $this->denyAccessUnlessGranted("ROLE_USER"); // everyone has access
 
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
@@ -201,7 +264,7 @@ class BlogController extends Controller
 
         //////add comment
         $comments = new Comments();
-        $comments->setOwner($this->getUser());  //ustawiam autora wpisu
+        $comments->setOwner($this->getUser());  //I set the author of the comment
         $comments->setPosts($post);
         $commentForm = $this->createForm(CommentType::class, $comments);
 
@@ -358,7 +421,7 @@ class BlogController extends Controller
             throw new AccessDeniedException();
         }
 
-        $user->setEnabled("0");
+        $user->setEnabled("0");  //trust me, must be zero
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);

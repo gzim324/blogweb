@@ -16,6 +16,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="Friends", inversedBy="owner")
      */
     protected $id;
 
@@ -59,12 +60,21 @@ class User extends BaseUser
      */
     private $aboutme;
 
+    /**
+     * @var Friends[]ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="Friends", mappedBy="friend")
+     * @ORM\JoinColumn(name="friend_id", referencedColumnName="id")
+     */
+    private $friend;
+
 
     public function __construct()
     {
         parent::__construct();
         $this->posts = new ArrayCollection();
         $this->comment = new ArrayCollection();
+        $this->friend = new ArrayCollection();
     }
 
     /**
@@ -171,6 +181,22 @@ class User extends BaseUser
     public function setComment($comment)
     {
         $this->comment = $comment;
+    }
+
+    /**
+     * @return Friends[]
+     */
+    public function getFriend()
+    {
+        return $this->friend;
+    }
+
+    /**
+     * @param Friends[] $friend
+     */
+    public function setFriend($friend)
+    {
+        $this->friend = $friend;
     }
 
 }

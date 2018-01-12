@@ -32,8 +32,11 @@
                     <p>{{ info.birthday|date("Y-m-d") }}</p>
                     <p>{{ info.interests }}</p>
                     <p>{{ info.aboutme }}</p>
-                {% else %}
-                    <p>Uzupełnij informacje o sobie</p>
+                    {% if is_granted("ROLE_USER") %}
+                        <form method="post" action="{{ path('blog_add_friend', {"id": info.id}) }}">
+                            <input type="button" name="addfriend" value="Follow">
+                        </form>
+                    {% endif %}
                 {% endfor %}
                  {#a href settings#}
             </div>
