@@ -1,7 +1,7 @@
 BlogWEB
 ========================
 
-This is a blogging site, which allows you to enter new contents, add comments under existing contents, view other users profiles, and search for contents and users
+It's a blogging site, which allows you to enter new contents, add comments under existing contents, view other users profiles, and search for contents and users
 
 What's needed?
 --------------
