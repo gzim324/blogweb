@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zima\BlogwebBundle\Entity\Comments;
-use Zima\BlogwebBundle\Entity\Friends;
+//use Zima\BlogwebBundle\Entity\Friend;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 use Zima\BlogwebBundle\Form\PostType;
@@ -71,6 +71,50 @@ class BlogController extends Controller
     }
 
     /**
+     * @Route("/friends/contents/{username}", name="blog_home")
+     * @Template()
+     * @param Request $request
+     * @param User $user
+     * @return array
+     */
+    public function friendsContentsAction(Request $request, User $user)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
+
+//        if($friend->getOwner() == $this->getUser()) {
+//            $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($friend);
+//        }
+        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
+
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $rows,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+
+        return array(
+            'rows' => $result
+        );
+    }
+
+//    /**
+//     * @Route("/friend)
+//     * @param User $user
+//     * @param Friend $friend
+//     */
+//    public function addFriend(User $user, Friend $friend)
+//    {
+////        $em = $this->getDoctrine()->getManager();
+////        $user = $em->getRepository('ZimaBlogwebBundle:User')->findOneBy(['email' => 'user1@localhost.com']);
+////        $friend->addFriends($user);
+////
+////        $em->persist($friend);
+////        $em->flush();
+//        return
+//    }
+
+    /**
      * @Route("/tabfriends/{username}", name="blog_tab_friends")
      * @Template()
      * @return array
@@ -127,33 +171,6 @@ class BlogController extends Controller
 
         return array(
 
-        );
-    }
-
-    /**
-     * @Route("/friends/contents/{username}", name="blog_home")
-     * @Template()
-     * @param Request $request
-     * @param Friends $friends
-     * @return array
-     */
-    public function friendsContentsAction(Request $request, Friends $friends)
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
-
-        if($friends->getOwner() == $this->getUser()) {
-            $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($friends);
-        }
-
-        $paginator = $this->get('knp_paginator');
-        $result = $paginator->paginate(
-            $rows,
-            $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 14)
-        );
-
-        return array(
-            'rows' => $result
         );
     }
 
