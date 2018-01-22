@@ -125,8 +125,6 @@ class BlogController extends Controller
             }
         }
 
-
-
         return array(
 
         );
@@ -135,15 +133,17 @@ class BlogController extends Controller
     /**
      * @Route("/friends/contents/{username}", name="blog_home")
      * @Template()
-     * @return array
      * @param Request $request
      * @param Friends $friends
+     * @return array
      */
     public function friendsContentsAction(Request $request, Friends $friends)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
 
-        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->friendsPost($friends);
+        if($friends->getOwner() == $this->getUser()) {
+            $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($friends);
+        }
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(

@@ -27,15 +27,15 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+
     /**
      * @param Friends $friends
      * @return array
      */
-    public function friendsPost(Friends $friends) {
+    public function selectFriendsPost(Friends $friends)
+    {
         return $this->createQueryBuilder("post")
-            ->where("post.deleted = :false")
-            ->setParameter("false", Post::STATUS_DELETED_FALSE)
-            ->andWhere("post.owner = :owner")
+            ->where("post.owner = :owner")
             ->setParameter("owner", $friends->getFriend())
             ->orderBy("post.createdAt", "DESC")
             ->getQuery()
