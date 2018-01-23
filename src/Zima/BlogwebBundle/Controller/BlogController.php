@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zima\BlogwebBundle\Entity\Comments;
 //use Zima\BlogwebBundle\Entity\Friend;
+use Zima\BlogwebBundle\Entity\Friend;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 use Zima\BlogwebBundle\Form\PostType;

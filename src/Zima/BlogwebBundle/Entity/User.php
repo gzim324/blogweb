@@ -16,7 +16,6 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\ManyToOne(targetEntity="Friends", inversedBy="owner")
      */
     protected $id;
 
@@ -61,20 +60,20 @@ class User extends BaseUser
     private $aboutme;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="friends")
-     * @ORM\JoinTable(name="friend",
-     *      joinColumns={@ORM\JoinColumn(name="owners_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="friends_id", referencedColumnName="id")}
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friends")
+     * @ORM\JoinTable(name="Friend",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
      *      )
-     */
-    private $friends;
-
-    /**
-     * @var User
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="owners")
      */
     private $owners;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="owners")
+     */
+    private $friends;
 
     public function __construct()
     {
@@ -82,6 +81,7 @@ class User extends BaseUser
         $this->posts = new ArrayCollection();
         $this->comment = new ArrayCollection();
         $this->friends = new ArrayCollection();
+        $this->owners = new ArrayCollection();
     }
 
     /**
@@ -93,19 +93,21 @@ class User extends BaseUser
     }
 
     /**
-     * @return ArrayCollection|Comments[]
+     * @return Post[]|ArrayCollection
      */
-    public function getComment()
+    public function getPosts()
     {
-        return $this->comment;
+        return $this->posts;
     }
 
     /**
-     * @param ArrayCollection|Comments[] $comment
+     * @param Post $posts
+     * @return $this
      */
-    public function setComment($comment)
+    public function addPosts(Post $posts)
     {
-        $this->comment = $comment;
+        $this->posts[] = $posts;
+        return $this;
     }
 
     /**
@@ -173,6 +175,22 @@ class User extends BaseUser
     }
 
     /**
+     * @return ArrayCollection|Comments[]
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param ArrayCollection|Comments[] $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getFriends()
@@ -181,33 +199,15 @@ class User extends BaseUser
     }
 
     /**
-     * @param $friends
+     * @param ArrayCollection $friends
      */
-    public function addFriends($friends)
+    public function setFriends($friends)
     {
         $this->friends = $friends;
     }
 
     /**
-     * @return Post[]|ArrayCollection
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-
-    /**
-     * @param Post $posts
-     * @return $this
-     */
-    public function addPosts(Post $posts)
-    {
-        $this->posts[] = $posts;
-        return $this;
-    }
-
-    /**
-     * @return User
+     * @return ArrayCollection
      */
     public function getOwners()
     {
@@ -215,11 +215,13 @@ class User extends BaseUser
     }
 
     /**
-     * @param User $owners
+     * @param ArrayCollection $owners
      */
     public function setOwners($owners)
     {
         $this->owners = $owners;
     }
+
+
 
 }
