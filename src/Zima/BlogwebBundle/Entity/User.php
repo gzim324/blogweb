@@ -222,6 +222,4 @@ class User extends BaseUser
         $this->owners = $owners;
     }
 
-
-
 }

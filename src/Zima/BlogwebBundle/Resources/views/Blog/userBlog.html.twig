@@ -33,6 +33,7 @@
                     <p>{{ info.interests }}</p>
                     <p>{{ info.aboutme }}</p>
                     {% if is_granted("ROLE_USER") %}
+                        {#<a href="{{ path('blog_add_friend', {"id": info.id}) }}"#}
                         <form method="post" action="{{ path('blog_add_friend', {"id": info.id}) }}">
                             <input type="button" name="addfriend" value="Follow">
                         </form>

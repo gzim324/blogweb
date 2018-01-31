@@ -9,8 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Zima\BlogwebBundle\Entity\Comments;
-//use Zima\BlogwebBundle\Entity\Friend;
-use Zima\BlogwebBundle\Entity\Friend;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 use Zima\BlogwebBundle\Form\PostType;
@@ -82,7 +80,7 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
 
-//        if($friend->getOwner() == $this->getUser()) {
+//        if($user->getOwner() == $this->getUser()) {
 //            $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($friend);
 //        }
         $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
@@ -99,45 +97,46 @@ class BlogController extends Controller
         );
     }
 
+
 //    /**
-//     * @Route("/friend)
+//     * @Route("", name="blog_add_friend")
 //     * @param User $user
-//     * @param Friend $friend
+//     * @param Request $request
+//     * @return \Symfony\Component\HttpFoundation\RedirectResponse
 //     */
-//    public function addFriend(User $user, Friend $friend)
+//    public function addFriendAction(User $user, Request $request)
 //    {
-////        $em = $this->getDoctrine()->getManager();
-////        $user = $em->getRepository('ZimaBlogwebBundle:User')->findOneBy(['email' => 'user1@localhost.com']);
-////        $friend->addFriends($user);
-////
-////        $em->persist($friend);
-////        $em->flush();
-//        return
+//        $em = $this->getDoctrine()->getManager();
+//        $user = $em->getRepository('ZimaBlogwebBundle:User')->findOneBy(['email' => 'user1@localhost.com']);
+//        $user->setFriends();
+//
+//        $em->persist($user);
+//        $em->flush();
+//        return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
 //    }
 
     /**
      * @Route("/tabfriends/{username}", name="blog_tab_friends")
      * @Template()
      * @return array
-     * @param User $user
      * @param Request $request
+     * @param User $user
      */
-    public function tabFriendsAction(User $user, Request $request)
+    public function tabFriendsAction(Request $request, User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
-        $rows = $this->getDoctrine()->getManager()->getRepository(Friends::class)->selectFriends($user);
-
+        $selectFriends = $this->getDoctrine()->getManager()->getRepository(User::class)->selectFriends($user);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
-            $rows,
+            $selectFriends,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );
 
         return array(
-            'rows' => $result
+            'selectFriends' => $result
         );
     }
 
@@ -151,16 +150,15 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
 
-        $friend = new Friends();
         $form = $request->get('addfriend');
 
         $form->handleRequest($request);
         if($request->isMethod('POST')) {
             if($form->isValid()){
-                $friend->setOwner($this->getUser());
-
+                $user->setOwner($this->getUser());
+                $user->setFriends($form);
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($friend);
+                $em->persist($user);
                 $em->flush();
 
                 $this->addFlash('success', "The contents has been added");
@@ -170,9 +168,7 @@ class BlogController extends Controller
             }
         }
 
-        return array(
-
-        );
+        return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
     }
 
     /**

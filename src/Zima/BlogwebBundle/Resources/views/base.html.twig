@@ -33,7 +33,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ app.user.username }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ path('blog_user', {"username": app.user.username}) }}">Show Profile</a></li>
-                            <li><a href="{{ path('blog_tab_friends', {"username": app.user.username}) }}">My Friends</a></li>
+                            <li><a href="{{ path('blog_tab_friends', {"username": app.user.username}) }}">Friends</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{{ path('blog_settings', {"id": app.user.id}) }}">Settings</a></li>
                             <li role="separator" class="divider"></li>

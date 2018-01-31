@@ -29,10 +29,10 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
 
     /**
-     * @param Friend $friend
+     * @param User $friend
      * @return array
      */
-    public function selectFriendsPost(Friend $friend)
+    public function selectFriendsPost(User $friend)
     {
         return $this->createQueryBuilder("post")
             ->where("post.owner = :owner")
