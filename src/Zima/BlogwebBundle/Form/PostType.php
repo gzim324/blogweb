@@ -19,10 +19,22 @@ class PostType extends AbstractType
             ->add("title", TextType::class)
             ->add("tags", TextType::class)
             ->add("short_description", TextareaType::class, array('attr' => array('rows' => '3')))
+//            ->add("contents", CKEditorType::class, array(
+//                'config' => array(
+//                    'uiColor' => '#ffffff',
+//                    'toolbar' => 'full'
+//                ),
+//            ))
             ->add("contents", CKEditorType::class, array(
                 'config' => array(
                     'uiColor' => '#ffffff',
-                    'toolbar' => 'full'
+                    'toolbar' => [
+                        ["Maximize"],
+                        ["Cut", "Copy", "Paste"], ["Undo", "Redo"],
+                        ["Bold", "Italic", "Underline", "Strike"], ["NumberedList"], ["BulletedList"], ["Outdent"], ["Indent"], ["Blockquote"],
+                        ["Link"], ["Format"], ["JustifyLeft"], ["JustifyCenter"], ["JustifyRight"], ["JustifyBlock"],
+                        ["Styles"], ["Scayt"]
+                    ],
                 ),
             ))
 //            ->add("contents", TextareaType::class, array('attr' => array('rows' => '22')))

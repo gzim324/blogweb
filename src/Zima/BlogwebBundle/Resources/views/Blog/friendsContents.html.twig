@@ -4,7 +4,10 @@
 
     <div class="col-xs-12 col-sm-7 col-md-9">
 
-        {% for content in rows %}
+        <h2>coś zjebałem w PostRepository i nie działa</h2>
+        <h2>{nie żeby wcześniej działało…}</h2>
+
+        {% for content in selectFriendsPost %}
             <div class="well">
                 <center><p style="font-size: 25px;">{{ content.title }}</p></center>
                 <p>{{ content.createdAt|date('Y-m-d H:i') }}</p> <hr>

@@ -3,7 +3,6 @@
 namespace Zima\BlogwebBundle\Repository;
 
 use Symfony\Component\HttpFoundation\Request;
-use Zima\BlogwebBundle\Entity\Friend;
 use Zima\BlogwebBundle\Entity\Post;
 use Zima\BlogwebBundle\Entity\User;
 
@@ -29,14 +28,16 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
 
 
     /**
-     * @param User $friend
+     * @param User $user
      * @return array
      */
-    public function selectFriendsPost(User $friend)
+    public function selectFriendsPost(User $user)
     {
         return $this->createQueryBuilder("post")
-            ->where("post.owner = :owner")
-            ->setParameter("owner", $friend->getFriend())
+            ->select('user')
+            ->leftJoin('ZimaBlogwebBundle:User', 'user', 'WITH', 'user.friends = post.owner')
+            ->where('post.owner = :userId')
+            ->setParameter('userId', $user->getFriends())
             ->orderBy("post.createdAt", "DESC")
             ->getQuery()
             ->getResult();
@@ -56,8 +57,6 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
-
 
     /**
      * @param Request $request

@@ -2,8 +2,8 @@
 
 {% block body %}
 
-    <div class="col-xs-12 col-sm-7 col-md-9">
-        {% for content  in rows%}
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        {% for content  in selectUndeletedPost%}
                 <div class="well">
                     <center><p style="font-size: 25px;">{{ content.title }}</p></center>
                     <p>wrote: <i><a href="{{ path('blog_user', {'username': content.owner}) }}">{{ content.owner }}</a></i> {{ content.createdAt|date('Y-m-d H:i') }} </p> <hr>
@@ -18,7 +18,7 @@
 
 
         <div class="navigation text-center">
-            {{ knp_pagination_render(rows) }}
+            {{ knp_pagination_render(selectUndeletedPost) }}
         </div>
     </div>
 

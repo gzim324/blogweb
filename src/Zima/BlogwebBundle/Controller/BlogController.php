@@ -27,18 +27,17 @@ class BlogController extends Controller
     {
         //everyone has access
 
-        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
-
+        $find_undeleted_post = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
-            $rows,
+            $find_undeleted_post,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );
 
         return array(
-            'rows' => $result
+            'selectUndeletedPost' => $result
         );
     }
 
@@ -51,21 +50,26 @@ class BlogController extends Controller
      */
     public function userBlogAction(User $user, Request $request)
     {
-        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
+        $this->denyAccessUnlessGranted("ROLE_USER");
+//        if(false === $this->denyAccessUnlessGranted("ROLE_ROLE")) { //tylko zalogowany
+//            $this->addFlash('warning', "Log in to view the user");
+//            return $this->redirectToRoute("fos_user_security_login");
+//        }
 
-        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
-        $rows1 = $this->getDoctrine()->getManager()->getRepository(User::class)->findInfo($user);
+        $Repo = $this->getDoctrine()->getManager();
+        $find_contents = $Repo->getRepository(Post::class)->findcontents($user);
+        $info_about_user = $Repo->getRepository(User::class)->findInfo($user);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
-            $rows,
+            $find_contents,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );
 
         return array(
-            'rows' => $result,
-            'rows1' => $rows1
+            'findContents' => $result,
+            'infoAboutUser' => $info_about_user
         );
     }
 
@@ -80,40 +84,20 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
 
-//        if($user->getOwner() == $this->getUser()) {
-//            $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($friend);
-//        }
-        $rows = $this->getDoctrine()->getManager()->getRepository(Post::class)->findcontents($user);
+        $select_friends_post = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($user);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
-            $rows,
+            $select_friends_post,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );
 
         return array(
-            'rows' => $result
+            'selectFriendsPost' => $result
         );
     }
 
-
-//    /**
-//     * @Route("", name="blog_add_friend")
-//     * @param User $user
-//     * @param Request $request
-//     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-//     */
-//    public function addFriendAction(User $user, Request $request)
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//        $user = $em->getRepository('ZimaBlogwebBundle:User')->findOneBy(['email' => 'user1@localhost.com']);
-//        $user->setFriends();
-//
-//        $em->persist($user);
-//        $em->flush();
-//        return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
-//    }
 
     /**
      * @Route("/tabfriends/{username}", name="blog_tab_friends")
@@ -141,37 +125,6 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/addfriend/{id}", name="blog_add_friend")
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @param User $user
-     * @param Request $request
-     */
-    public function addFriendAction(User $user, Request $request)
-    {
-        $this->denyAccessUnlessGranted("ROLE_USER"); //tylko zalogowany
-
-        $form = $request->get('addfriend');
-
-        $form->handleRequest($request);
-        if($request->isMethod('POST')) {
-            if($form->isValid()){
-                $user->setOwner($this->getUser());
-                $user->setFriends($form);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
-
-                $this->addFlash('success', "The contents has been added");
-                return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
-            }else{
-                $this->addFlash('error', "The contents cannot be added");
-            }
-        }
-
-        return $this->redirectToRoute("blog_tab_friends", ['username' => $user->getId()]);
-    }
-
-    /**
      * @Route("/addcontents", name="blog_addcontents")
      * @param Request $request
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
@@ -182,17 +135,17 @@ class BlogController extends Controller
         $this->denyAccessUnlessGranted("ROLE_USER");
 
         $post = new Post();
-        $form = $this->createForm(PostType::class, $post);
+        $formPost = $this->createForm(PostType::class, $post);
 
-        $form->handleRequest($request);
+        $formPost->handleRequest($request);
         if($request->isMethod('POST')) {
-            if($form->isValid()){
+            if($formPost->isValid()){
                 $post->setDeleted(Post::STATUS_DELETED_FALSE) //I set deleted on FALSE
                 ->setOwner($this->getUser());  //I set the author of the content
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($post);
-                $em->flush();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($post);
+                $entityManager->flush();
 
                 $this->addFlash('success', "The contents has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
@@ -202,7 +155,7 @@ class BlogController extends Controller
         }
 
         return array(
-            'form' => $form->createView()
+            'formPost' => $formPost->createView()
         );
     }
 
@@ -235,9 +188,9 @@ class BlogController extends Controller
             $commentForm->handleRequest($request);
             if($commentForm->isValid()){
                 $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($comments);
-                $em->flush();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($comments);
+                $entityManager->flush();
 
                 $this->addFlash('success', "The comment has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
@@ -286,9 +239,9 @@ class BlogController extends Controller
             $commentForm->handleRequest($request);
             if($commentForm->isValid()){
                 $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($comments);
-                $em->flush();
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($comments);
+                $entityManager->flush();
 
                 $this->addFlash('success', "The comment has been added");
                 return $this->redirectToRoute("blog_content", ['id' => $post->getId()]);
@@ -326,12 +279,12 @@ class BlogController extends Controller
             throw new AccessDeniedException();
         }
 
-        $form = $this->createForm(PostType::class, $post);
+        $formPost = $this->createForm(PostType::class, $post);
         if($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($post);
-            $em->flush();
+            $formPost->handleRequest($request);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
 
             $this->addFlash("success", "The contents has been updated");
 
@@ -339,7 +292,7 @@ class BlogController extends Controller
         }
 
         return array(
-            'form' => $form->createView()
+            'formPost' => $formPost->createView()
         );
     }
 
@@ -357,9 +310,9 @@ class BlogController extends Controller
 
         $post->setDeleted(Post::STATUS_DELETED_TRUE);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($post);
-        $em->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($post);
+        $entityManager->flush();
 
         $this->addFlash('warning', "The contents has been deleted");
 
@@ -378,16 +331,14 @@ class BlogController extends Controller
         if($this->getUser() !== $comments->getOwner()) {
             throw new AccessDeniedException();
         }
-
         $comments->setDeleted(Comments::STATUS_DELETED_TRUE);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($comments);
-        $em->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($comments);
+        $entityManager->flush();
 
         $this->addFlash('warning', "The comment has been deleted");
         return $this->redirectToRoute('blog_other');
-
     }
 
     /**
@@ -408,9 +359,9 @@ class BlogController extends Controller
         $form = $this->createForm(SettingsType::class, $user);
         if($request->isMethod('POST')) {
         $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
             $this->addFlash('success', 'The information has been added');
             return $this->redirectToRoute("blog_user", ["username" => $this->getUser()]);
@@ -422,6 +373,26 @@ class BlogController extends Controller
         );
     }
 
+    /**
+     * @Route("/delete/friend/{id}", name="blog_delete_friend")
+     */
+    public function deleteFriendAction($id)
+    {
+        $delete_friend = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User')->findBy([
+            'owners' => $this->getUser(),
+            'friends' => $id
+        ]);
+
+        if (NULL == $delete_friend) {
+            throw $this->createNotFoundException('Not Found entry in this database');
+        }
+
+        $entity_manager = $this->getDoctrine()->getManager();
+        $entity_manager->remove($delete_friend);
+        $entity_manager->flush();
+
+        return $this->redirect($this->generateUrl('blog_other'));
+    }
 
     /**
      * @Route("/delete/account/{id}", name="blog_delete_account")
@@ -435,29 +406,73 @@ class BlogController extends Controller
             throw new AccessDeniedException();
         }
 
-        $user->setEnabled("0");  //trust me, must be zero
+        $user->setEnabled(false);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         $this->addFlash('danger', "Your account has deleted");
         return $this->redirectToRoute('fos_user_security_logout');
     }
 
     /**
-     * @Route("/search", name="blog_search")
+     * @Route("/add/friend/{id}", name="blog_add_friend")
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @param User $user
+     */
+    public function addFriendAction(User $user, $id)
+    {
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
+        $friend = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User')->findOneBy(["friends" => $id]);
+//        $owner = $entityManager->getRepository('ZimaBlogwebBundle:User')->findOneBy(['owners' => $this->getUser()]);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $user->setOwners($this->getUser());
+        $user->addFriends($friend);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute("blog_tab_friends", ['username' => $this->getUser()]);
+    }
+
+    /**
+     * @Route("/search/contents", name="blog_search")
      * @param Request $request
      * @return array
      * @Template()
      */
     public function searchContentsAction(Request $request) {
 
-        $rows = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
+        $search_contents = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
-            $rows,
+            $search_contents,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 14)
+        );
+        return array(
+            'result' => $result
+        );
+    }
+
+    /**
+     * @Route("/search/users", name="blog_search_user")
+     * @param Request $request
+     * @return array
+     * @Template()
+     */
+    public function searchUsersAction(Request $request) {
+
+        $search_users = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:User')->searchUsers($request);
+
+        $paginator = $this->get('knp_paginator');
+        $result = $paginator->paginate(
+            $search_users,
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 14)
         );

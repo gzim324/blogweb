@@ -2,6 +2,7 @@
 
 namespace Zima\BlogwebBundle\Repository;
 
+use Symfony\Component\HttpFoundation\Request;
 use Zima\BlogwebBundle\Entity\User;
 
 class UserRepository extends \Doctrine\ORM\EntityRepository
@@ -18,7 +19,6 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-
     /**
      * @param User $user
      * @return mixed
@@ -29,26 +29,22 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->select('user', 'friends', 'owners')
             ->leftJoin('user.friends', 'friends')
             ->leftJoin('user.owners', 'owners')
-            ->where('friends.id = :userId')     //tak wiem, musze to zamienić…
+            ->where('owners.id = :userId')
             ->setParameter('userId', $user->getId())
             ->getQuery()
             ->getResult();
     }
 
-
-//    /**
-//     * @param User $user
-//     * @return array
-//     */
-//    public function selectFriends(User $user) {
-//        return $this->createQueryBuilder('user')
-//            ->select('user', 'friends', 'owners')
-//            ->leftJoin('user.friends', 'friends')
-//            ->leftJoin('user.owners', 'owners')
-//            ->where('user.owners = :userId')
-//            ->setParameter('userId', $user->getId())
-//            ->getQuery()
-//            ->getResult();
-//    }
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function searchUsers(Request $request) {
+        return $this->createQueryBuilder('user')
+            ->where('user.fullname LIKE :search')
+            ->setParameter('search', '%'.$request->get('searchUsers').'%')
+            ->getQuery()
+            ->getResult();
+    }
 
 }

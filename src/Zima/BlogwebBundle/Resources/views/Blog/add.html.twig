@@ -4,20 +4,20 @@
 
 {% block body %}
     <h1>Add Contents</h1>
-    {{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+    {{ form_start(formPost, {"attr": {"novalidate": "novalidate"}}) }}
     <div class="form-group">
-        {{ form_widget(form.title, {'attr': {'placeholder': 'Title'}}) }}
+        {{ form_widget(formPost.title, {'attr': {'placeholder': 'Title'}}) }}
     </div>
     <div class="form-group">
-    {{ form_widget(form.tags, {'attr': {'placeholder': 'tags'}}) }}
+    {{ form_widget(formPost.tags, {'attr': {'placeholder': 'tags'}}) }}
     </div>
     <div class="form-group">
-        {{ form_widget(form.short_description, {'attr': {'placeholder': 'Short description'}}) }}
+        {{ form_widget(formPost.short_description, {'attr': {'placeholder': 'Short description'}}) }}
     </div>
     <div class="form-group">
-    {{ form_widget(form.contents, {'attr': {'placeholder': 'Contents…'}}) }}
+    {{ form_widget(formPost.contents, {'attr': {'placeholder': 'Contents…'}}) }}
     </div>
-    {{ form_end(form) }}
+    {{ form_end(formPost) }}
 
 
 

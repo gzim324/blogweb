@@ -1,9 +1,15 @@
 {% extends '@ZimaBlogweb/base.html.twig' %}
 
+{% block title %}
+    {% for info in infoAboutUser %}
+        BlogWEB|{{ info.username }}
+    {% endfor %}
+{% endblock %}
+
 {% block body %}
 
     <div class="col-lg-8 col-md-8 col-xs-12">
-        {% for content in rows %}
+        {% for content in findContents %}
                 <div class="well">
                     <center><p style="font-size: 25px;">{{ content.title }}</p></center>
                     <p>{{ content.createdAt|date('Y-m-d H:i') }}</p> <hr>
@@ -18,28 +24,21 @@
             </div>
         {% endfor %}
         <div class="navigation text-center">
-            {{ knp_pagination_render(rows) }}
+            {{ knp_pagination_render(findContents) }}
         </div>
     </div>
 
     <div class="col-lg-4 col-md-4 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-body">
-                {# username, glowny temat blogowania, ilosc postow, birthday, zainteresowania, o mnie #}
-                {% for info in rows1 %}
+                {% for info in infoAboutUser %}
                     <h3>{{ info.username }}</h3>
                     <p>{{ info.fullname }}</p>
                     <p>{{ info.birthday|date("Y-m-d") }}</p>
                     <p>{{ info.interests }}</p>
                     <p>{{ info.aboutme }}</p>
-                    {% if is_granted("ROLE_USER") %}
-                        {#<a href="{{ path('blog_add_friend', {"id": info.id}) }}"#}
-                        <form method="post" action="{{ path('blog_add_friend', {"id": info.id}) }}">
-                            <input type="button" name="addfriend" value="Follow">
-                        </form>
-                    {% endif %}
+                    <a href="{{ path('blog_add_friend', {'id': info.id}) }}">Follow</a>
                 {% endfor %}
-                 {#a href settings#}
             </div>
         </div>
     </div>

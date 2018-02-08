@@ -29,14 +29,10 @@
     <div class="col-lg-6 col-md-6 col-xs-12">
         <h2>Account</h2> <hr>
         <div class="form-group">
-            <label>Email</label> <a href="#"><i>Change email</i></a>
-        </div>
-        <div class="form-group">
-            <label>Password</label> <a href="#"><i>Change password</i></a>
+            <label>Password</label> <a href="{{ path('fos_user_change_password', {'id': app.user.id}) }}"><i>Change password</i></a>
         </div>
         <div class="form-group">
             <a href="{{ path('blog_delete_account', {'id': app.user.id}) }}"><i>Delete an account</i></a>
-            {#<a href="#"><i>Delete an account</i></a> // czy na pewno#}
         </div>
     </div>
     {{ form_end(form) }} <br>

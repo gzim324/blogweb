@@ -27,6 +27,11 @@
                         <input type="text" name="search" class="form-control" placeholder="Search Contents">
                     </div>
                 </form>
+                <form class="navbar-form navbar-left" method="post" action="{{ path('blog_search_user') }}">
+                    <div class="form-group">
+                        <input type="text" name="searchUsers" class="form-control" placeholder="Search Users">
+                    </div>
+                </form>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

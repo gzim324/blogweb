@@ -61,19 +61,20 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="friends")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="owners")
      * @ORM\JoinTable(name="Friend",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
      *      )
      */
-    private $owners;
+    private $friends;
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="owners")
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="friends")
      */
-    private $friends;
+    private $owners;
+
 
     public function __construct()
     {
@@ -193,33 +194,47 @@ class User extends BaseUser
     /**
      * @return ArrayCollection
      */
-    public function getFriends()
-    {
-        return $this->friends;
-    }
-
-    /**
-     * @param ArrayCollection $friends
-     */
-    public function setFriends($friends)
-    {
-        $this->friends = $friends;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getOwners()
     {
         return $this->owners;
     }
 
     /**
-     * @param ArrayCollection $owners
+     * @param $owners
      */
     public function setOwners($owners)
     {
         $this->owners = $owners;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getFriends()
+    {
+        return $this->friends;
+    }
+
+    /**
+     * @param User $user
+     * @return $this
+     */
+    public function addFriends(User $user)
+    {
+        $this->friends[] = $user;
+        return $this;
+    }
+
+//    /**
+//     * @param User $user
+//     */
+//    public function addFriends(User $user)
+//    {
+//        if (!$this->friends->contains($user)) {
+//            $this->friends->add($user);
+//            $user->addFriends($this);
+//        }
+//    }
+
 
 }
