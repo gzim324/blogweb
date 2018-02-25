@@ -19,7 +19,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/orm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/egeloen/ckeditor-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/egeloen/json-builder" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/excelwebzone/recaptcha-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fig/link-util" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/friendsofsymfony/user-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/gedmo/doctrine-extensions" />
@@ -72,7 +71,6 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/ckeditor-bundle" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/json-builder" />
-          <root url="file://$MODULE_DIR$/vendor/excelwebzone/recaptcha-bundle" />
           <root url="file://$MODULE_DIR$/vendor/fig/link-util" />
           <root url="file://$MODULE_DIR$/vendor/friendsofsymfony/user-bundle" />
           <root url="file://$MODULE_DIR$/vendor/gedmo/doctrine-extensions" />
@@ -121,7 +119,6 @@
           <root url="file://$MODULE_DIR$/vendor/doctrine/orm" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/ckeditor-bundle" />
           <root url="file://$MODULE_DIR$/vendor/egeloen/json-builder" />
-          <root url="file://$MODULE_DIR$/vendor/excelwebzone/recaptcha-bundle" />
           <root url="file://$MODULE_DIR$/vendor/fig/link-util" />
           <root url="file://$MODULE_DIR$/vendor/friendsofsymfony/user-bundle" />
           <root url="file://$MODULE_DIR$/vendor/gedmo/doctrine-extensions" />

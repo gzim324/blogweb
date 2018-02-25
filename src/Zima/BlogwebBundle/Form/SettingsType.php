@@ -3,7 +3,7 @@
 namespace Zima\BlogwebBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +17,11 @@ class SettingsType extends AbstractType
     {
         $builder
             ->add("fullname", TextType::class)
-            ->add("birthday", DateTimeType::class)
+            ->add("birthday", BirthdayType::class, array(
+                'placeholder' => array(
+                    'year' => '------', 'month' => '------', 'day' => '------',
+                )
+            ))
             ->add("interests", TextType::class)
             ->add("aboutme", TextareaType::class, array('attr' => array('rows' => '4')))
             ->add("username", TextType::class)
