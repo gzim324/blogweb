@@ -352,7 +352,7 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
-        if(!$this->getUser()) {
+        if($this->getUser() != $user->getUsername()) {
             throw new AccessDeniedException();
         }
 
@@ -402,7 +402,7 @@ class BlogController extends Controller
     public function deleteAccountAction(User $user) {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
-        if(!$this->getUser()) {
+        if($this->getUser() != $user->getUsername()) {
             throw new AccessDeniedException();
         }
 
