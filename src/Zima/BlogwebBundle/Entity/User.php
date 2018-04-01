@@ -64,7 +64,7 @@ class User extends BaseUser
      * @ORM\ManyToMany(targetEntity="User", inversedBy="owners")
      * @ORM\JoinTable(name="Friend",
      *      joinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="owner_user_id", referencedColumnName="id")}
      *      )
      */
     private $friends;
@@ -215,16 +215,6 @@ class User extends BaseUser
         return $this->friends;
     }
 
-//    /**
-//     * @param User $user
-//     * @return $this
-//     */
-//    public function addFriends(User $user)
-//    {
-//        $this->friends[] = $user;
-//        return $this;
-//    }
-
     /**
      * @param User $friend
      * @param User $owner
@@ -238,5 +228,13 @@ class User extends BaseUser
         }
     }
 
+    public function removeFriends(User $owner, User $friend)
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->owners->removeElement($friend);
+            $this->friends->removeElement($owner);
+//            $user->addFriends($this, $this);
+        }
+    }
 
 }

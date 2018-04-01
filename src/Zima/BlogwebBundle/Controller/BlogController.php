@@ -105,7 +105,7 @@ class BlogController extends Controller
 
 
     /**
-     * @Route("/tabfriends/{username}", name="blog_tab_friends")
+     * @Route("/friends/{username}", name="blog_tab_friends")
      * @Template()
      * @return array
      * @param Request $request
@@ -380,21 +380,19 @@ class BlogController extends Controller
 
     /**
      * @Route("/delete/friend/{id}", name="blog_delete_friend")
+     * @param User $user
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteFriendAction($id)
+    public function deleteFriendAction(User $user, $id)
     {
-        $delete_friend = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User')->findBy([
-            'owners' => $this->getUser(),
-            'friends' => $id
-        ]);
+        $entityManager = $this->getDoctrine()->getManager();
+        $friend = $entityManager->getRepository(User::class)->find($id);
+        $owner = $this->getUser();
+        $user->removeFriends($owner, $friend);
 
-        if (NULL == $delete_friend) {
-            throw $this->createNotFoundException('Not Found entry in this database');
-        }
-
-        $entity_manager = $this->getDoctrine()->getManager();
-        $entity_manager->remove($delete_friend);
-        $entity_manager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         return $this->redirect($this->generateUrl('blog_other'));
     }
