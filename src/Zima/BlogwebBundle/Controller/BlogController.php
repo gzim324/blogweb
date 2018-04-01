@@ -22,6 +22,7 @@ class BlogController extends Controller
      * @Route("/", name="blog_other")
      * @Template()
      * @return array
+     * @param Request $request
      */
     public function otherAction(Request $request)
     {
@@ -80,11 +81,15 @@ class BlogController extends Controller
      * @param User $user
      * @return array
      */
-    public function friendsContentsAction(Request $request, User $user)
+    public function friendsContentsAction(Request $request, User $user, $username)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
 
-        $select_friends_post = $this->getDoctrine()->getManager()->getRepository(Post::class)->selectFriendsPost($user);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $friend = $entityManager->getRepository(User::class)->find($username);
+
+        $select_friends_post = $entityManager->getRepository(Post::class)->selectFriendsPost($friend);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
@@ -425,12 +430,11 @@ class BlogController extends Controller
     {
         $this->denyAccessUnlessGranted("ROLE_USER");
 
-        $friend = $this->getDoctrine()->getRepository('ZimaBlogwebBundle:User')->findOneBy(["friends" => $id]);
-//        $owner = $entityManager->getRepository('ZimaBlogwebBundle:User')->findOneBy(['owners' => $this->getUser()]);
-
         $entityManager = $this->getDoctrine()->getManager();
-        $user->setOwners($this->getUser());
-        $user->addFriends($friend);
+        $friend = $entityManager->getRepository(User::class)->find($id);
+//        $user->setOwners($this->getUser());
+        $owner = $this->getUser();
+        $user->addFriends($owner, $friend);
 
         $entityManager->persist($user);
         $entityManager->flush();
@@ -468,7 +472,7 @@ class BlogController extends Controller
      */
     public function searchUsersAction(Request $request) {
 
-        $search_users = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:User')->searchUsers($request);
+        $search_users = $this->getDoctrine()->getManager()->getRepository(User::class)->searchUsers($request);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(

@@ -27,8 +27,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder('user')
             ->select('user', 'friends', 'owners')
-            ->leftJoin('user.friends', 'friends')
-            ->leftJoin('user.owners', 'owners')
+            ->leftJoin('user.friends', 'owners')
+            ->leftJoin('user.owners', 'friends')
             ->where('owners.id = :userId')
             ->setParameter('userId', $user->getId())
             ->getQuery()
@@ -42,6 +42,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     public function searchUsers(Request $request) {
         return $this->createQueryBuilder('user')
             ->where('user.fullname LIKE :search')
+            ->where('user.username LIKE :search')
             ->setParameter('search', '%'.$request->get('searchUsers').'%')
             ->getQuery()
             ->getResult();
