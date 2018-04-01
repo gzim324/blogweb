@@ -224,7 +224,6 @@ class User extends BaseUser
         if (!$this->friends->contains($friend)) {
             $this->owners->add($friend);
             $this->friends->add($owner);
-//            $user->addFriends($this, $this);
         }
     }
 
@@ -233,7 +232,6 @@ class User extends BaseUser
         if (!$this->friends->contains($friend)) {
             $this->owners->removeElement($friend);
             $this->friends->removeElement($owner);
-//            $user->addFriends($this, $this);
         }
     }
 

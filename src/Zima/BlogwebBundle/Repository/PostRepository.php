@@ -34,10 +34,10 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     public function selectFriendsPost(User $user)
     {
         return $this->createQueryBuilder("post")
-            ->select('user')
-            ->leftJoin('ZimaBlogwebBundle:User', 'user', 'WITH', 'user.friends = post.owner')
-            ->where('post.owner = :userId')
-            ->setParameter('userId', $user->getFriends())
+//            ->select('user')
+//            ->leftJoin('ZimaBlogwebBundle:User', 'user', 'WITH', 'user.owner = post.owner')
+            ->where('post.owner = :friends')
+            ->setParameter('friends', $user->getOwners())
             ->orderBy("post.createdAt", "DESC")
             ->getQuery()
             ->getResult();

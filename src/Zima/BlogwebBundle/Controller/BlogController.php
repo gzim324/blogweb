@@ -81,15 +81,15 @@ class BlogController extends Controller
      * @param User $user
      * @return array
      */
-    public function friendsContentsAction(Request $request, User $user, $username)
+    public function friendsContentsAction(Request $request, User $user)
     {
         $this->denyAccessUnlessGranted("ROLE_USER"); //logged in has access
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $friend = $entityManager->getRepository(User::class)->find($username);
+//        $friend = $entityManager->getRepository(User::class)->find($id);
 
-        $select_friends_post = $entityManager->getRepository(Post::class)->selectFriendsPost($friend);
+        $select_friends_post = $entityManager->getRepository(Post::class)->selectFriendsPost($user);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
@@ -430,7 +430,6 @@ class BlogController extends Controller
 
         $entityManager = $this->getDoctrine()->getManager();
         $friend = $entityManager->getRepository(User::class)->find($id);
-//        $user->setOwners($this->getUser());
         $owner = $this->getUser();
         $user->addFriends($owner, $friend);
 
