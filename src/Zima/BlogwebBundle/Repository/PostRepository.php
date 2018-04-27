@@ -26,21 +26,21 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-
     /**
      * @param User $user
      * @return array
      */
-    public function selectFriendsPost(User $user)
-    {
-        return $this->createQueryBuilder("post")
-//            ->select('user')
-//            ->leftJoin('ZimaBlogwebBundle:User', 'user', 'WITH', 'user.owner = post.owner')
-            ->where('post.owner = :friends')
-            ->setParameter('friends', $user->getOwners())
-            ->orderBy("post.createdAt", "DESC")
-            ->getQuery()
-            ->getResult();
+    public function selectFriendsPost(User $user ) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $q = $qb
+            ->select('post')
+            ->from(Post::class, 'post')
+            ->where($qb->expr()->in('post.owner', ':userId'))
+            ->setParameter('userId', $user->getOwners())
+            ->orderBy("post.createdAt", "DESC");
+
+        return $q->getQuery()->getResult();
     }
 
     /**

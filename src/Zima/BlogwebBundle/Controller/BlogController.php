@@ -87,7 +87,7 @@ class BlogController extends Controller
 
         $entityManager = $this->getDoctrine()->getManager();
 
-//        $friend = $entityManager->getRepository(User::class)->find($id);
+//        $friends_array = $entityManager->getRepository(Post::class)->ofId($user);
 
         $select_friends_post = $entityManager->getRepository(Post::class)->selectFriendsPost($user);
 
@@ -448,7 +448,7 @@ class BlogController extends Controller
      */
     public function searchContentsAction(Request $request) {
 
-        $search_contents = $this->getDoctrine()->getManager()->getRepository('ZimaBlogwebBundle:Post')->searchContents($request);
+        $search_contents = $this->getDoctrine()->getManager()->getRepository(Post::class)->searchContents($request);
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
