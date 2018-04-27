@@ -42,7 +42,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     public function searchUsers(Request $request) {
         return $this->createQueryBuilder('user')
             ->where('user.fullname LIKE :search')
-            ->andwhere('user.username LIKE :search')
+            ->orwhere('user.username LIKE :search')
             ->setParameter('search', '%'.$request->get('searchUsers').'%')
             ->getQuery()
             ->getResult();
