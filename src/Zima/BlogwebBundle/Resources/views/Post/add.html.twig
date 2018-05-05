@@ -9,10 +9,10 @@
         {{ form_widget(formPost.title, {'attr': {'placeholder': 'Title'}}) }}
     </div>
     <div class="form-group">
-    {{ form_widget(formPost.tags, {'attr': {'placeholder': 'tags'}}) }}
+    {{ form_widget(formPost.tags, {'attr': {'placeholder': '#tags'}}) }}
     </div>
     <div class="form-group">
-        {{ form_widget(formPost.short_description, {'attr': {'placeholder': 'Short description'}}) }}
+        {{ form_widget(formPost.short_description, {'attr': {'placeholder': 'Short description (minimum 50 characters)'}}) }}
     </div>
     <div class="form-group">
     {{ form_widget(formPost.contents, {'attr': {'placeholder': 'Contents…'}}) }}

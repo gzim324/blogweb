@@ -32,7 +32,7 @@
             <label>Password</label> <a href="{{ path('fos_user_change_password', {'id': app.user.id}) }}"><i>Change password</i></a>
         </div>
         <div class="form-group">
-            <a href="{{ path('blog_delete_account', {'id': app.user.id}) }}"><i>Delete an account</i></a>
+            <a href="{{ path('user_delete_account', {'id': app.user.id}) }}"><i>Delete an account</i></a>
         </div>
     </div>
     {{ form_end(form) }} <br>
