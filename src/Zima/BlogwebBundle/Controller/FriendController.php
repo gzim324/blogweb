@@ -73,6 +73,7 @@ class FriendController extends Controller
         $entityManager->persist($user);
         $entityManager->flush();
 
-        return $this->redirect($this->generateUrl('post_all'));
+        // return $this->redirect($this->generateUrl('post_all'));
+        return $this->redirectToRoute("friend_select", ['username' => $this->getUser()]);
     }
 }
