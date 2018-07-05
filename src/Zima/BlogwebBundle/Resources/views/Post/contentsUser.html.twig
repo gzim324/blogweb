@@ -34,9 +34,20 @@
     {#select comments#}
     {% for comment in selectcomments %}
         <div class="well well-sm">
-            <p><b>{{ comment.owner }}</b> ({{ comment.createdAt|date('Y-m-d H:i') }})</p>
+            <p><b>{{ comment.owner }}</b> ({{ comment.createdAt|date('Y-m-d H:i') }})
+                {% if comment.owner == app.user.username %}
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="comment-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    ...
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="comment-menu">
+                    <li><a href="{{ path('comment_edit', {"id": comment.id}) }}">Edit</a></li>
+                    <li><a href="{{ path('comment_delete', {"id": comment.id}) }}">Delete</a></li>
+                </ul>
+            </div>
+            {% endif %}
+            </p>
             <p>{{ comment.comment }}</p>
-            <a class="btn btn-danger" href="{{ path('comment_delete', {"id": comment.id}) }}">X</a>
         </div>
     {% else %}
         <div class="well">

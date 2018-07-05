@@ -38,4 +38,16 @@ monolog:
         #    level: info
 
 #swiftmailer:
+#    disable_delivery:  true
 #    delivery_addresses: ['me@example.com']
+
+fos_user:
+    from_email:
+        address:        michozaur5000@gmail.com
+        sender_name:    Generic Sender Name
+    registration:
+        confirmation:
+            from_email:
+                address:        michozaur5000@gmail.com
+                sender_name:    Development Registration
+            enabled:    false

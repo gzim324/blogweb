@@ -1,0 +1,10 @@
+{% extends '@ZimaBlogweb/base.html.twig' %}
+
+{% block title %}BlockWEB|Edit{% endblock %}
+
+{% block body %}
+    <h1>Edit comment</h1>
+    {{ form(formComment, {"attr": {"novalidate": "novalidate"}}) }}
+
+
+{% endblock %}

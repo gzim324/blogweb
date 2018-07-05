@@ -251,7 +251,7 @@ class PostController extends Controller
 
         $this->addFlash('warning', "The contents has been deleted");
 
-        return $this->redirectToRoute('user_board', ["username" => $this->getUser()]);
+        return $this->redirectToRoute('user_board', ["username" => $post->getId()]);
     }
 
     /**

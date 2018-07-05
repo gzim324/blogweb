@@ -28,6 +28,7 @@ framework:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        cookie_lifetime: 7200
     fragments: ~
     http_method_override: true
     assets: ~
@@ -83,8 +84,19 @@ fos_user:
     firewall_name: main
     user_class: Zima\BlogwebBundle\Entity\User
     from_email:
-        address: "%mailer_user%"
-        sender_name: "%mailer_user%"
+        address: '%mailer_user%'
+        sender_name: BlogWEB
+    registration:
+        confirmation:
+            from_email:
+                address:        '%mailer_user%'
+                sender_name:    Person who handles Registrations
+            enabled:    true # change to false to disable registration email confirmation
+    resetting:
+        email:
+            from_email:
+                address:        '%mailer_user%'
+                sender_name:    No Reply
 
 knp_paginator:
     page_range: 5

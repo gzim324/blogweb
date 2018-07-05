@@ -170,7 +170,9 @@ class Comments
         $this->deleted = $deleted;
     }
 
-
-
+//    public function __toString()
+//    {
+//        return (string) $this->getName();
+//    }
 }
 
