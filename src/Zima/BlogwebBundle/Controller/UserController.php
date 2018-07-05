@@ -40,6 +40,7 @@ class UserController extends Controller
         return array(
             'findContents' => $result,
             'infoAboutUser' => $info_about_user,
+            'user' => $user
         );
     }
 

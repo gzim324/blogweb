@@ -2,6 +2,19 @@
 
 {% block body %}
 
+    {% if post.owner == app.user.username %}
+        <nav class="navbar navbar-default ">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ path('post_edit', {"id": post.id}) }}">Edit</a></li>
+                        <li><a href="{{ path('post_delete', {"id": post.id}) }}">Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+
     <div class="well">
         <p style="font-size: 25px;">{{ post.title }}</p>
         <p>wrote: <i>{{ post.owner }}</i> {{ post.createdAt|date('Y-m-d H:i') }} </p> <hr>

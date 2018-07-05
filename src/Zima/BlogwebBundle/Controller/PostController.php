@@ -100,54 +100,6 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/mycontents/{id}", name="post_author_content")
-     * @Template()
-     * @param Post $post
-     * @param Request $request
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function contentsUserAction(Post $post, Request $request) {
-
-        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
-            $this->addFlash("error", "This contents does not exist");
-            return $this->redirectToRoute("user_board", ["username" => $this->getUser()]);
-        }
-
-        if($this->getUser() !== $post->getOwner()) {
-            return $this->redirectToRoute("post_content", ['id' => $post->getId()]);
-        }
-
-        //add comment
-        $comments = new Comments();
-        $comments->setOwner($this->getUser());  //I set the author of the comment
-        $comments->setPosts($post);
-        $commentForm = $this->createForm(CommentType::class, $comments);
-
-        if($request->isMethod('POST')) {
-            $commentForm->handleRequest($request);
-            if($commentForm->isValid()){
-                $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($comments);
-                $entityManager->flush();
-
-                $this->addFlash('success', "The comment has been added");
-                return $this->redirectToRoute("post_content", ['id' => $post->getId()]);
-            }else{
-                $this->addFlash('error', "The comment cannot be added");
-            }
-        }
-        $selectComments = $this->getDoctrine()->getManager()->getRepository(Comments::class)->selectComment($comments);
-
-        return array(
-            'post' => $post,
-            'commentForm' => $commentForm->createView(),
-            'selectcomments' => $selectComments
-        );
-    }
-
-    /**
      * @Route("/contents/{id}", name="post_content")
      * @Template()
      * @param Post $post
@@ -159,10 +111,6 @@ class PostController extends Controller
         if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("user_board", ["username" => $this->getUser()]);
-        }
-
-        if($this->getUser() === $post->getOwner()) {
-            return $this->redirectToRoute("post_author_content", ['id' => $post->getId()]);
         }
 
         //////add comment

@@ -40,6 +40,9 @@
                     {% if info.id != app.user.id %}
                             <a href="{{ path('friend_add', {'id': info.id}) }}">Follow</a>
                     {% endif %}
+                    {#{% if user.friends in app.user.username %}#}
+                        {#<a href="#">Unfollow</a>#}
+                    {#{% endif %}#}
                 {% endfor %}
             </div>
         </div>
