@@ -24,11 +24,12 @@ class UserController extends Controller
      * @param Request $request
      * @return array
      */
-    public function userBlogAction(User $user, Request $request) {
-
+    public function userBlogAction(User $user, Request $request)
+    {
         $Repo = $this->getDoctrine()->getManager();
         $find_contents = $Repo->getRepository(Post::class)->findcontents($user);
         $info_about_user = $Repo->getRepository(User::class)->findInfo($user);
+        $selectFriends = $this->getDoctrine()->getManager()->getRepository(User::class)->selectFriends($this->getUser());
 
         $paginator = $this->get('knp_paginator');
         $result = $paginator->paginate(
@@ -40,7 +41,7 @@ class UserController extends Controller
         return array(
             'findContents' => $result,
             'infoAboutUser' => $info_about_user,
-            'user' => $user
+            'isFriend' =>  in_array($user, $selectFriends)
         );
     }
 
@@ -51,14 +52,14 @@ class UserController extends Controller
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Template()
      */
-    public function settingsAction(Request $request, User $user) {
-
-        if($this->getUser() != $user->getUsername()) {
+    public function settingsAction(Request $request, User $user)
+    {
+        if ($this->getUser() != $user->getUsername()) {
             throw new AccessDeniedException();
         }
 
         $form = $this->createForm(SettingsType::class, $user);
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
@@ -79,9 +80,9 @@ class UserController extends Controller
      * @param User $user
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAccountAction(User $user) {
-
-        if($this->getUser() != $user->getUsername()) {
+    public function deleteAccountAction(User $user)
+    {
+        if ($this->getUser() != $user->getUsername()) {
             throw new AccessDeniedException();
         }
 
@@ -101,8 +102,8 @@ class UserController extends Controller
      * @return array
      * @Template()
      */
-    public function searchUsersAction(Request $request) {
-
+    public function searchUsersAction(Request $request)
+    {
         $search_users = $this->getDoctrine()->getManager()->getRepository(User::class)->searchUsers($request);
 
         $paginator = $this->get('knp_paginator');

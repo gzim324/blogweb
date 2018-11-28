@@ -21,8 +21,8 @@ class FriendController extends Controller
      * @param User $user
      * @return array
      */
-    public function tabFriendsAction(Request $request, User $user) {
-
+    public function tabFriendsAction(Request $request, User $user)
+    {
         $selectFriends = $this->getDoctrine()->getManager()->getRepository(User::class)->selectFriends($user);
 
         $paginator = $this->get('knp_paginator');
@@ -43,8 +43,8 @@ class FriendController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function addFriendAction(User $user, $id) {
-
+    public function addFriendAction(User $user, $id)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $friend = $entityManager->getRepository(User::class)->find($id);
         $owner = $this->getUser();
@@ -63,8 +63,8 @@ class FriendController extends Controller
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteFriendAction(User $user, $id) {
-
+    public function deleteFriendAction(User $user, $id)
+    {
         $entityManager = $this->getDoctrine()->getManager();
         $friend = $entityManager->getRepository(User::class)->find($id);
         $owner = $this->getUser();
@@ -73,7 +73,6 @@ class FriendController extends Controller
         $entityManager->persist($user);
         $entityManager->flush();
 
-        // return $this->redirect($this->generateUrl('post_all'));
         return $this->redirectToRoute("friend_select", ['username' => $this->getUser()]);
     }
 }

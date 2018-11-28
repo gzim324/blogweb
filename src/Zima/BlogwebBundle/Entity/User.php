@@ -234,5 +234,4 @@ class User extends BaseUser
             $this->friends->removeElement($owner);
         }
     }
-
 }

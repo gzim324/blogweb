@@ -37,16 +37,18 @@
                     <p>{{ info.birthday|date("Y-m-d") }}</p>
                     <p>{{ info.interests }}</p>
                     <p>{{ info.aboutme }}</p>
-                    {% if info.id != app.user.id %}
+
+                    {% if info != app.user %}
+                        {% if isFriend == true %}
+                            <a href="{{ path('friend_delete', {'id': info.id}) }}">Unfollow</a>
+                        {% else %}
                             <a href="{{ path('friend_add', {'id': info.id}) }}">Follow</a>
+                        {% endif %}
                     {% endif %}
-                    {#{% if user.friends in app.user.username %}#}
-                        {#<a href="#">Unfollow</a>#}
-                    {#{% endif %}#}
+
                 {% endfor %}
             </div>
         </div>
     </div>
-
 
 {% endblock %}

@@ -296,6 +296,4 @@ class Post
     {
         $this->shortdescription = $shortdescription;
     }
-
 }
-

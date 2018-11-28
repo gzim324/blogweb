@@ -17,7 +17,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
     /**
      * @return array
      */
-    public function findUndeletedPost() {
+    public function findUndeletedPost()
+    {
         return $this->createQueryBuilder("post")
             ->where("post.deleted = :false")
             ->setParameter("false", Post::STATUS_DELETED_FALSE)
@@ -30,7 +31,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
      * @param User $user
      * @return array
      */
-    public function selectFriendsPost(User $user ) {
+    public function selectFriendsPost(User $user)
+    {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
         $q = $qb
@@ -47,7 +49,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
      * @param User $user
      * @return array
      */
-    public function findcontents(User $user) {
+    public function findcontents(User $user)
+    {
         return $this->createQueryBuilder("post")
             ->where("post.deleted = :false")
             ->setParameter("false", Post::STATUS_DELETED_FALSE)
@@ -62,7 +65,8 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
      * @param Request $request
      * @return array
      */
-    public function searchContents(Request $request) {
+    public function searchContents(Request $request)
+    {
         return $this->createQueryBuilder('post')
             ->where('post.tags LIKE :search')
             ->orWhere('post.title LIKE :search')
@@ -71,5 +75,4 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

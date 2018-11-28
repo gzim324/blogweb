@@ -22,7 +22,8 @@ class PostController extends Controller
      * @param Request $request
      * @return array
      */
-    public function otherAction(Request $request) {
+    public function otherAction(Request $request)
+    {
         //everyone has access
 
         $find_undeleted_post = $this->getDoctrine()->getManager()->getRepository(Post::class)->findUndeletedPost();
@@ -47,8 +48,8 @@ class PostController extends Controller
      * @return array
      * @Security("has_role('ROLE_USER')")
      */
-    public function friendsContentsAction(Request $request, User $user) {
-
+    public function friendsContentsAction(Request $request, User $user)
+    {
         $entityManager = $this->getDoctrine()->getManager();
 
         $select_friends_post = $entityManager->getRepository(Post::class)->selectFriendsPost($user);
@@ -72,14 +73,14 @@ class PostController extends Controller
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Security("has_role('ROLE_USER')")
      */
-    public function addAction(Request $request) {
-
+    public function addAction(Request $request)
+    {
         $post = new Post();
         $formPost = $this->createForm(PostType::class, $post);
 
         $formPost->handleRequest($request);
-        if($request->isMethod('POST')) {
-            if($formPost->isValid()){
+        if ($request->isMethod('POST')) {
+            if ($formPost->isValid()) {
                 $post->setDeleted(Post::STATUS_DELETED_FALSE) //I set deleted on FALSE
                 ->setOwner($this->getUser());  //I set the author of the content
 
@@ -89,7 +90,7 @@ class PostController extends Controller
 
                 $this->addFlash('success', "The contents has been added");
                 return $this->redirectToRoute("post_content", ['id' => $post->getId()]);
-            }else{
+            } else {
                 $this->addFlash('error', "The contents cannot be added");
             }
         }
@@ -106,9 +107,9 @@ class PostController extends Controller
      * @param Request $request
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function contentsAction(Post $post, Request $request) {
-
-        if($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
+    public function contentsAction(Post $post, Request $request)
+    {
+        if ($post->getDeleted() == Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("user_board", ["username" => $this->getUser()]);
         }
@@ -119,9 +120,9 @@ class PostController extends Controller
         $comments->setPosts($post);
         $commentForm = $this->createForm(CommentType::class, $comments);
 
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $commentForm->handleRequest($request);
-            if($commentForm->isValid()){
+            if ($commentForm->isValid()) {
                 $comments->setDeleted(Comments::STATUS_DELETED_FALSE);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($comments);
@@ -129,7 +130,7 @@ class PostController extends Controller
 
                 $this->addFlash('success', "The comment has been added");
                 return $this->redirectToRoute("post_content", ['id' => $post->getId()]);
-            }else{
+            } else {
                 $this->addFlash('error', "The comment cannot be deleted");
             }
         }
@@ -151,19 +152,19 @@ class PostController extends Controller
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Security("has_role('ROLE_USER')")
      */
-    public function editAction(Request $request, Post $post) {
-
-        if($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
+    public function editAction(Request $request, Post $post)
+    {
+        if ($post->getDeleted() === Post::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("user_board", ["username" => $this->getUser()]);
         }
 
-        if($this->getUser() !== $post->getOwner()) {
+        if ($this->getUser() !== $post->getOwner()) {
             throw new AccessDeniedException();
         }
 
         $formPost = $this->createForm(PostType::class, $post);
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $formPost->handleRequest($request);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
@@ -185,9 +186,9 @@ class PostController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Security("has_role('ROLE_USER')")
      */
-    public function deletedAction(Post $post) {
-
-        if($this->getUser() !== $post->getOwner()) {
+    public function deletedAction(Post $post)
+    {
+        if ($this->getUser() !== $post->getOwner()) {
             throw new AccessDeniedException();
         }
 
@@ -208,8 +209,8 @@ class PostController extends Controller
      * @param Request $request
      * @return array
      */
-    public function searchContentsAction(Request $request) {
-
+    public function searchContentsAction(Request $request)
+    {
         $search_contents = $this->getDoctrine()->getManager()->getRepository(Post::class)->searchContents($request);
 
         $paginator = $this->get('knp_paginator');

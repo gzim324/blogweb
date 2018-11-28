@@ -22,9 +22,9 @@ class CommentController extends Controller
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Security("has_role('ROLE_USER')")
      */
-    public function deletedCommentAction(Comments $comments) {
-
-        if($this->getUser() !== $comments->getOwner()) {
+    public function deletedCommentAction(Comments $comments)
+    {
+        if ($this->getUser() !== $comments->getOwner()) {
             throw new AccessDeniedException();
         }
 
@@ -46,19 +46,19 @@ class CommentController extends Controller
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      * @Security("has_role('ROLE_USER')")
      */
-    public function editAction(Request $request, Comments $comments) {
-
-        if($comments->isDeleted() === Comments::STATUS_DELETED_TRUE) {
+    public function editAction(Request $request, Comments $comments)
+    {
+        if ($comments->isDeleted() === Comments::STATUS_DELETED_TRUE) {
             $this->addFlash("error", "This contents does not exist");
             return $this->redirectToRoute("user_board", ["username" => $this->getUser()]);
         }
 
-        if($this->getUser() !== $comments->getOwner()) {
+        if ($this->getUser() !== $comments->getOwner()) {
             throw new AccessDeniedException();
         }
 
         $formComment = $this->createForm(CommentType::class, $comments);
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $formComment->handleRequest($request);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comments);

@@ -11,7 +11,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      * @return array
      * @param User $user
      */
-    public function findInfo(User $user) {
+    public function findInfo(User $user)
+    {
         return $this->createQueryBuilder("user")
             ->where("user.id = :user")
             ->setParameter("user", $user->getId())
@@ -39,7 +40,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      * @param Request $request
      * @return array
      */
-    public function searchUsers(Request $request) {
+    public function searchUsers(Request $request)
+    {
         return $this->createQueryBuilder('user')
             ->where('user.fullname LIKE :search')
             ->orwhere('user.username LIKE :search')
@@ -47,5 +49,4 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
-
 }

@@ -175,4 +175,3 @@ class Comments
 //        return (string) $this->getName();
 //    }
 }
-
