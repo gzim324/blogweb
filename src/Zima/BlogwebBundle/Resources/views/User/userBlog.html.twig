@@ -40,9 +40,9 @@
 
                     {% if info != app.user %}
                         {% if isFriend == true %}
-                            <a href="{{ path('friend_delete', {'id': info.id}) }}">Unfollow</a>
+                            <a href="{{ path('friend_delete', {'id': info.id}) }}" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Unfollow</a>
                         {% else %}
-                            <a href="{{ path('friend_add', {'id': info.id}) }}">Follow</a>
+                            <a href="{{ path('friend_add', {'id': info.id}) }}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Follow</a>
                         {% endif %}
                     {% endif %}
 
